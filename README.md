@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+   <img src="https://github.com/user-attachments/assets/4939bbcc-ae4f-4615-b993-f50f42c7de0b" alt="Vyse Logo" width="200" />
+</p>
 
-## Getting Started
+<h1 align="center">Vyse – Minimal, Powerful Online Text Editor</h1>
 
-First, run the development server:
+<p align="center">
+  ✍️ Write. 🧠 Think. 🔐 Share. All in your browser.
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<p align="center">
+  <a href="https://vyse.pratikpatil.me"><strong>🚀 Try it Live</a>
+    <span>•</span>
+  <a href="https://github.com/0xpratikpatil/vyse"><strong>GitHub Repo</strong></a>
+    <span>•</span>
+  <a href="https://github.com/0xpratikpatil/vyse">Give it a ⭐️ if you like it!</a>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+</p>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🌟 What is Vyse?
 
-## Learn More
+**Vyse** is a beautifully minimal, feature-rich **online text editor** designed to make writing effortless. Whether you're a writer, student, developer, or everyday note-taker — Vyse helps you focus on content, not clutter.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ✨ Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- 🎨 **Rich Text Formatting** — Bold, italic, underline, highlight, sub/superscript, alignment, and more
+- 🖼️ **Drag & Drop Images** — With smooth loading placeholders
+- 🔍 **Smart Search & Replace** — Instant content discovery and updates
+- ✅ **Task Lists** — Stay productive and check off your to-dos
+- 📊 **Tables** — Organize structured content with ease
+- 📺 **YouTube Embeds** — Paste a link and it just works
+- 🧭 **Goto Navigation** — Instantly jump to headings and sections
+- 🔐 **Password-Protected Sharing** — Secure links for private notes
+- 🌈 **Beautiful UI** — A clean, distraction-free writing environment
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚧 What's Coming Next?
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Vyse is just getting started. Here's a sneak peek at what’s coming soon:
+
+| Feature                 | Status    | Description                                      |
+|------------------------|-----------|--------------------------------------------------|
+| 🤖 AI Agents           | 🧠 Planned | Get suggestions, grammar help, or formatting tips |
+| ✨ AI Content Tools     | 🧠 Planned | Summarize, rewrite, generate — powered by LLMs    |
+| 🤝 Real-Time Collaboration | 🛠 Planned | Co-edit docs live with friends or teammates       |
+| 💬 Inline Comments     | 🛠 Planned | Leave feedback or notes like Google Docs         |
+| 🕒 Document History     | 🛠 Planned | Track changes and restore older versions         |
+| 📄 Multi-Page Support  | 🛠 Planned | Organize longer documents like chapters          |
+
+---
+
+## 💻 Open Source & Built with ❤️
+
+Vyse is fully open source and maintained by [**@0xpratikpatil**](https://github.com/0xpratikpatil). Contributions are not just welcome — they’re encouraged!
+
+### Want to contribute?
+
+- 🐞 [Report bugs](https://github.com/0xpratikpatil/vyse/issues)
+- 🌟 [Request features](https://github.com/0xpratikpatil/vyse/issues)
+- 👨‍💻 [Submit a Pull Request](https://github.com/0xpratikpatil/vyse/pulls)
+- 📣 Spread the word on Twitter, GitHub, or anywhere else!
+
+---
+
+## 👀 Who’s Vyse for?
+
+Vyse is made for *anyone who writes*:
+
+- Writers & Bloggers ✍️  
+- Students & Academics 📚  
+- Developers writing documentation 💻  
+- Creatives planning ideas 🧠  
+- You.
+
+---
+
+## 📜 License
+
+Vyse is released under the **MIT License** — use it freely, modify it, and make it your own.
+
+---
+
+> Made with love ♥️, coffee ☕, and a keyboard ⌨️ by [@0xpratikpatil](https://github.com/0xpratikpatil)
