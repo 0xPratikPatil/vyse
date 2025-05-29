@@ -135,7 +135,7 @@ export default function FooterSection() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/tnc" className="text-foreground/70 hover:text-primary transition-colors">
+                  <Link href="/terms" className="text-foreground/70 hover:text-primary transition-colors">
                     Terms & Conditions
                   </Link>
                 </li>
@@ -156,7 +156,7 @@ export default function FooterSection() {
           <div className="flex flex-wrap items-center gap-4 text-foreground/70 text-sm">
             <Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link>
             <span className="h-4 w-px bg-primary/20"></span>
-            <Link href="/tnc" className="hover:text-primary transition-colors">Terms</Link>
+            <Link href="/terms" className="hover:text-primary transition-colors">Terms</Link>
             <span className="h-4 w-px bg-primary/20"></span>
             <Link href="/cookies" className="hover:text-primary transition-colors">Cookies</Link>
             <span className="h-4 w-px bg-primary/20"></span>
