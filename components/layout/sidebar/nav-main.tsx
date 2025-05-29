@@ -8,8 +8,10 @@ import {
   Pencil,
   Trash2,
   MoreHorizontal,
+  Loader2
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import {
   Collapsible,
@@ -35,6 +37,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
+  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -52,8 +55,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-// import { useDeleteChat, useRenameChat } from "@/features/chat/api/useChats";
 import { toast } from "sonner";
+import { useDeleteDocument, useUpdateDocument } from "@/features/documents/api/useDocuments";
 
 export function NavMain({
   items,
@@ -67,33 +70,35 @@ export function NavMain({
       title: string;
       url: string;
       id?: string;
+      subtitle?: string;
     }[];
   }[];
 }) {
-  const [chatToDelete, setChatToDelete] = useState<string | null>(null);
+  const router = useRouter();
+  const [documentToDelete, setDocumentToDelete] = useState<string | null>(null);
   const [isRenameDialogOpen, setIsRenameDialogOpen] = useState(false);
-  const [chatToRename, setChatToRename] = useState<{
+  const [documentToRename, setDocumentToRename] = useState<{
     id: string;
     title: string;
   } | null>(null);
-  const [newChatTitle, setNewChatTitle] = useState<string>("");
-  const newChatTitleRef = useRef<HTMLInputElement>(null);
+  const [newDocumentTitle, setNewDocumentTitle] = useState<string>("");
+  const newDocumentTitleRef = useRef<HTMLInputElement>(null);
 
-  // const deleteChatMutation = useDeleteChat();
-  // const renameChatMutation = useRenameChat();
+  const deleteDocumentMutation = useDeleteDocument();
+  const updateDocumentMutation = useUpdateDocument();
 
   const handleShare = (e: React.MouseEvent, id?: string) => {
     e.preventDefault();
     e.stopPropagation();
     if (!id) return;
 
-    // Copy chat link to clipboard
+    // Copy document link to clipboard
     navigator.clipboard
       .writeText(
-        `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/chat/${id}`
+        `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/shared/${id}`
       )
       .then(() => {
-        toast.success("Chat link copied to clipboard");
+        toast.success("Document link copied to clipboard");
       })
       .catch(() => {
         toast.error("Failed to copy link to clipboard");
@@ -105,66 +110,75 @@ export function NavMain({
     e.stopPropagation();
     if (!id || !title) return;
 
-    setChatToRename({ id, title });
-    setNewChatTitle(title);
+    setDocumentToRename({ id, title });
+    setNewDocumentTitle(title);
     setIsRenameDialogOpen(true);
 
     // Focus on input after dialog opens
     setTimeout(() => {
-      if (newChatTitleRef.current) {
-        newChatTitleRef.current.focus();
-        newChatTitleRef.current.select();
+      if (newDocumentTitleRef.current) {
+        newDocumentTitleRef.current.focus();
+        newDocumentTitleRef.current.select();
       }
     }, 100);
   };
 
-  // const handleRenameConfirm = () => {
-  //   if (!chatToRename || !newChatTitle.trim()) return;
+  const handleRenameConfirm = () => {
+    if (!documentToRename || !newDocumentTitle.trim()) return;
 
-  //   renameChatMutation.mutate(
-  //     {
-  //       json: {
-  //         chatId: chatToRename.id,
-  //         title: newChatTitle.trim(),
-  //       },
-  //     },
-  //     {
-  //       onSuccess: () => {
-  //         setIsRenameDialogOpen(false);
-  //         setChatToRename(null);
-  //       },
-  //     }
-  //   );
-  // };
+    updateDocumentMutation.mutate(
+      {
+        json: {
+          id: documentToRename.id,
+          title: newDocumentTitle.trim(),
+        },
+      },
+      {
+        onSuccess: () => {
+          setIsRenameDialogOpen(false);
+          setDocumentToRename(null);
+          toast.success("Document renamed successfully");
+        },
+        onError: () => {
+          toast.error("Failed to rename document");
+        }
+      }
+    );
+  };
 
   const handleDelete = (e: React.MouseEvent, id?: string) => {
     e.preventDefault();
     e.stopPropagation();
     if (!id) return;
 
-    setChatToDelete(id);
+    setDocumentToDelete(id);
   };
 
-  // const confirmDelete = () => {
-  //   if (chatToDelete) {
-  //     deleteChatMutation.mutate(
-  //       {
-  //         json: {
-  //           chatId: chatToDelete,
-  //         },
-  //       },
-  //       {
-  //         onSuccess: () => {
-  //           setChatToDelete(null);
-  //         },
-  //       }
-  //     );
-  //   }
-  // };
+  const confirmDelete = () => {
+    if (documentToDelete) {
+      deleteDocumentMutation.mutate(
+        {
+          json: {
+            id: documentToDelete,
+          },
+        },
+        {
+          onSuccess: () => {
+            setDocumentToDelete(null);
+            toast.success("Document deleted successfully");
+          },
+          onError: () => {
+            toast.error("Failed to delete document");
+            setDocumentToDelete(null);
+          }
+        }
+      );
+    }
+  };
 
-  // Extracts the chat ID from the URL if it's a chat URL
-  const getChatIdFromUrl = (url: string): string | undefined => {
-    if (url.startsWith("/chat/")) {
+  // Extracts the document ID from the URL
+  const getDocumentIdFromUrl = (url: string): string | undefined => {
+    if (url.startsWith("/editor/")) {
       return url.split("/").pop();
     }
     return undefined;
@@ -178,10 +192,10 @@ export function NavMain({
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip={item.title}>
-                <a href={item.url}>
+                <Link href={item.url}>
                   <item.icon />
                   <span className="truncate">{item.title}</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
               {item.items?.length ? (
                 <>
@@ -194,13 +208,13 @@ export function NavMain({
                   <CollapsibleContent>
                     <SidebarMenuSub>
                       {item.items?.map((subItem) => {
-                        const chatId =
-                          getChatIdFromUrl(subItem.url) || subItem.id;
-                        // Skip adding actions to "View All" item or when the item is a loading placeholder or no-chats indicator
+                        const documentId =
+                          getDocumentIdFromUrl(subItem.url) || subItem.id;
+                        // Skip adding actions to "View All" item or when the item is a loading placeholder or no-documents indicator
                         const shouldShowActions =
-                          subItem.title !== "View All" &&
-                          subItem.title !== "Loading chats..." &&
-                          subItem.title !== "No chats yet";
+                          subItem.title !== "View All Documents" &&
+                          subItem.title !== "Loading documents..." &&
+                          subItem.title !== "No documents yet";
 
                         return (
                           <SidebarMenuSubItem
@@ -232,11 +246,13 @@ export function NavMain({
                                       <DropdownMenuContent
                                         align="end"
                                         side="right"
+                                        className="w-[160px] p-1"
                                       >
                                         <DropdownMenuItem
                                           onClick={(e) =>
-                                            handleShare(e, chatId)
+                                            handleShare(e, documentId)
                                           }
+                                          className="text-sm px-2 py-1.5"
                                         >
                                           <Share2 className="h-4 w-4 mr-2" />
                                           Share
@@ -245,19 +261,20 @@ export function NavMain({
                                           onClick={(e) =>
                                             handleRename(
                                               e,
-                                              chatId,
+                                              documentId,
                                               subItem.title
                                             )
                                           }
+                                          className="text-sm px-2 py-1.5"
                                         >
                                           <Pencil className="h-4 w-4 mr-2" />
                                           Rename
                                         </DropdownMenuItem>
                                         <DropdownMenuItem
                                           onClick={(e) =>
-                                            handleDelete(e, chatId)
+                                            handleDelete(e, documentId)
                                           }
-                                          className="text-destructive focus:text-destructive"
+                                          className="text-sm px-2 py-1.5 text-destructive focus:text-destructive"
                                         >
                                           <Trash2 className="h-4 w-4 mr-2" />
                                           Delete
@@ -282,25 +299,25 @@ export function NavMain({
 
       {/* Delete confirmation dialog */}
       <AlertDialog
-        open={chatToDelete !== null}
-        onOpenChange={(open) => !open && setChatToDelete(null)}
+        open={documentToDelete !== null}
+        onOpenChange={(open) => !open && setDocumentToDelete(null)}
       >
-        <AlertDialogContent>
+        <AlertDialogContent className="sm:max-w-md max-w-[90vw] w-full mx-auto">
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Chat</AlertDialogTitle>
+            <AlertDialogTitle className="text-lg font-semibold">Delete Document</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this chat? This action cannot be
+              Are you sure you want to delete this document? This action cannot be
               undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            {/* <AlertDialogAction
+          <AlertDialogFooter className="flex sm:flex-row flex-col gap-2">
+            <AlertDialogCancel className="sm:w-auto w-full order-1 sm:order-none">Cancel</AlertDialogCancel>
+            <AlertDialogAction
               onClick={confirmDelete}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              disabled={deleteChatMutation.isPending}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90 sm:w-auto w-full"
+              disabled={deleteDocumentMutation.isPending}
             >
-              {deleteChatMutation.isPending ? (
+              {deleteDocumentMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                   Deleting...
@@ -308,47 +325,50 @@ export function NavMain({
               ) : (
                 "Delete"
               )}
-            </AlertDialogAction> */}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
 
       {/* Rename Dialog */}
       <Dialog open={isRenameDialogOpen} onOpenChange={setIsRenameDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Rename Chat</DialogTitle>
-            <DialogDescription>
-              Enter a new name for this chat.
+        <DialogContent className="sm:max-w-md max-w-[90vw] w-full mx-auto p-5 sm:p-6">
+          <DialogHeader className="pb-3">
+            <DialogTitle className="text-lg font-semibold">Rename Document</DialogTitle>
+            <DialogDescription className="pt-1.5">
+              Enter a new name for this document.
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <Label htmlFor="chat-title">Chat name</Label>
+          <div className="py-3">
+            <Label htmlFor="document-title" className="text-sm font-medium">Document name</Label>
             <Input
-              id="chat-title"
-              value={newChatTitle}
-              onChange={(e) => setNewChatTitle(e.target.value)}
-              placeholder="Enter chat name"
-              ref={newChatTitleRef}
+              id="document-title"
+              value={newDocumentTitle}
+              onChange={(e) => setNewDocumentTitle(e.target.value)}
+              placeholder="Enter document name"
+              className="mt-2"
+              ref={newDocumentTitleRef}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  // handleRenameConfirm();
+                  handleRenameConfirm();
                 }
               }}
             />
           </div>
-          <DialogFooter>
+          <DialogFooter className="flex sm:flex-row flex-col gap-3 sm:gap-2 mt-3 pt-2">
             <Button
               variant="outline"
               onClick={() => setIsRenameDialogOpen(false)}
+              className="sm:w-auto w-full order-1 sm:order-none"
             >
               Cancel
             </Button>
-            {/* <Button
+            <Button
               onClick={handleRenameConfirm}
-              disabled={!newChatTitle.trim() || renameChatMutation.isPending}
+              disabled={!newDocumentTitle.trim() || updateDocumentMutation.isPending}
+              className="sm:w-auto w-full"
             >
-              {renameChatMutation.isPending ? (
+              {updateDocumentMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                   Saving...
@@ -356,7 +376,7 @@ export function NavMain({
               ) : (
                 "Save"
               )}
-            </Button> */}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

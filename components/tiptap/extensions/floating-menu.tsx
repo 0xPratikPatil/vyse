@@ -14,7 +14,6 @@ import {
   Minus,
   TableIcon,
   CheckSquare,
-  Youtube,
   Quote,
   AlignLeft,
   AlignCenter,
@@ -28,6 +27,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useDebounce } from "@/hooks/use-debounce"
+import { YoutubeIcon } from "./youtube-toolbar"
+import { ToolbarProvider } from "../toolbars/toolbar-provider"
+import { HeadingsToolbar } from "../toolbars/headings"
+import { AlignmentTooolbar } from "../toolbars/alignment"
 
 export type CommandItemType = {
   title: string
@@ -128,7 +131,7 @@ const groups: CommandGroupType[] = [
       {
         title: "YouTube Video",
         description: "Embed a YouTube video",
-        icon: Youtube,
+        icon: YoutubeIcon,
         keywords: "youtube video embed",
         command: (editor) => {
           const url = prompt("Enter YouTube URL")
@@ -318,91 +321,97 @@ export function TipTapFloatingMenu({ editor }: { editor: Editor }) {
   }, [selectedIndex])
 
   return (
-    <FloatingMenu
-      editor={editor}
-      shouldShow={({ state }) => {
-        if (!editor) return false
+    <ToolbarProvider editor={editor}>
+      <FloatingMenu
+        editor={editor}
+        shouldShow={({ state }) => {
+          if (!editor) return false
 
-        const { $from } = state.selection
-        const currentLineText = $from.parent.textBetween(0, $from.parentOffset, "\n", " ")
+          const { $from } = state.selection
+          const currentLineText = $from.parent.textBetween(0, $from.parentOffset, "\n", " ")
 
-        const isSlashCommand =
-          currentLineText.startsWith("/") &&
-          $from.parent.type.name !== "codeBlock" &&
-          $from.parentOffset === currentLineText.length
+          const isSlashCommand =
+            currentLineText.startsWith("/") &&
+            $from.parent.type.name !== "codeBlock" &&
+            $from.parentOffset === currentLineText.length
 
-        if (!isSlashCommand) {
-          if (isOpen) setIsOpen(false)
-          return false
-        }
+          if (!isSlashCommand) {
+            if (isOpen) setIsOpen(false)
+            return false
+          }
 
-        const query = currentLineText.slice(1).trim()
-        if (query !== search) setSearch(query)
-        if (!isOpen) setIsOpen(true)
-        return true
-      }}
-      tippyOptions={{
-        placement: "bottom-start",
-        interactive: true,
-        appendTo: () => document.body,
-        onHide: () => {
-          setIsOpen(false)
-          setSelectedIndex(-1)
-        },
-      }}
-    >
-      <Command
-        role="listbox"
-        ref={commandRef}
-        className="z-50 w-72 overflow-hidden rounded-lg border bg-popover shadow-lg"
+          const query = currentLineText.slice(1).trim()
+          if (query !== search) setSearch(query)
+          if (!isOpen) setIsOpen(true)
+          return true
+        }}
+        tippyOptions={{
+          placement: "bottom-start",
+          interactive: true,
+          appendTo: () => document.body,
+          onHide: () => {
+            setIsOpen(false)
+            setSelectedIndex(-1)
+          },
+        }}
       >
-        <ScrollArea className="max-h-[330px]">
-          <CommandList>
-            <CommandEmpty className="py-3 text-center text-sm text-muted-foreground">No results found</CommandEmpty>
+        <Command
+          role="listbox"
+          ref={commandRef}
+          className="z-50 w-72 overflow-hidden rounded-lg border bg-popover shadow-lg"
+        >
+          <ScrollArea className="max-h-[330px]">
+            <CommandList>
+              <CommandEmpty className="py-3 text-center text-sm text-muted-foreground">No results found</CommandEmpty>
 
-            {filteredGroups.map((group, groupIndex) => (
-              <CommandGroup
-                key={`${group.group}-${groupIndex}`}
-                heading={<div className="px-2 py-1.5 text-xs font-medium text-muted-foreground">{group.group}</div>}
-              >
-                {group.items.map((item, itemIndex) => {
-                  const flatIndex =
-                    filteredGroups.slice(0, groupIndex).reduce((acc, g) => acc + g.items.length, 0) + itemIndex
+              {/* Optionally, you can add HeadingsToolbar and AlignmentTooolbar here for dropdowns */}
+              <HeadingsToolbar />
+              <AlignmentTooolbar />
 
-                  return (
-                    <CommandItem
-                      role="option"
-                      key={`${group.group}-${item.title}-${itemIndex}`}
-                      value={`${group.group}-${item.title}`}
-                      onSelect={() => executeCommand(item.command)}
-                      className={cn(
-                        "gap-3 aria-selected:bg-accent/50",
-                        flatIndex === selectedIndex ? "bg-accent/50" : "",
-                      )}
-                      aria-selected={flatIndex === selectedIndex}
-                      ref={(el) => {
-                        itemRefs.current[flatIndex] = el
-                      }}
-                      tabIndex={flatIndex === selectedIndex ? 0 : -1}
-                    >
-                      <div className="flex h-9 w-9 items-center justify-center rounded-md border bg-background">
-                        <item.icon className="h-4 w-4" />
-                      </div>
-                      <div className="flex flex-1 flex-col">
-                        <span className="text-sm font-medium">{item.title}</span>
-                        <span className="text-xs text-muted-foreground">{item.description}</span>
-                      </div>
-                      <kbd className="ml-auto flex h-5 items-center rounded bg-muted px-1.5 text-xs text-muted-foreground">
-                        ↵
-                      </kbd>
-                    </CommandItem>
-                  )
-                })}
-              </CommandGroup>
-            ))}
-          </CommandList>
-        </ScrollArea>
-      </Command>
-    </FloatingMenu>
+              {filteredGroups.map((group, groupIndex) => (
+                <CommandGroup
+                  key={`${group.group}-${groupIndex}`}
+                  heading={<div className="px-2 py-1.5 text-xs font-medium text-muted-foreground">{group.group}</div>}
+                >
+                  {group.items.map((item, itemIndex) => {
+                    const flatIndex =
+                      filteredGroups.slice(0, groupIndex).reduce((acc, g) => acc + g.items.length, 0) + itemIndex
+
+                    return (
+                      <CommandItem
+                        role="option"
+                        key={`${group.group}-${item.title}-${itemIndex}`}
+                        value={`${group.group}-${item.title}`}
+                        onSelect={() => executeCommand(item.command)}
+                        className={cn(
+                          "gap-3 aria-selected:bg-accent/50",
+                          flatIndex === selectedIndex ? "bg-accent/50" : "",
+                        )}
+                        aria-selected={flatIndex === selectedIndex}
+                        ref={(el) => {
+                          itemRefs.current[flatIndex] = el
+                        }}
+                        tabIndex={flatIndex === selectedIndex ? 0 : -1}
+                      >
+                        <div className="flex h-9 w-9 items-center justify-center rounded-md border bg-background">
+                          <item.icon className="h-4 w-4" />
+                        </div>
+                        <div className="flex flex-1 flex-col">
+                          <span className="text-sm font-medium">{item.title}</span>
+                          <span className="text-xs text-muted-foreground">{item.description}</span>
+                        </div>
+                        <kbd className="ml-auto flex h-5 items-center rounded bg-muted px-1.5 text-xs text-muted-foreground">
+                          ↵
+                        </kbd>
+                      </CommandItem>
+                    )
+                  })}
+                </CommandGroup>
+              ))}
+            </CommandList>
+          </ScrollArea>
+        </Command>
+      </FloatingMenu>
+    </ToolbarProvider>
   )
 }

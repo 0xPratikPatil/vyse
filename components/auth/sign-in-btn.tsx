@@ -11,7 +11,7 @@ export async function SignInButton() {
 
 	return (
 		<Link
-			href={session?.session ? "/chat" : "/login"}
+			href={session?.session ? "/documents" : "/login"}
 			className="flex justify-center"
 		>
 			<Button className="gap-2  justify-between" variant="default">
@@ -39,7 +39,7 @@ export async function SignInFallback() {
 	const guessIsSignIn = checkOptimisticSession(await headers());
 	return (
 		<Link
-			href={guessIsSignIn ? "/chat" : "/login"}
+			href={guessIsSignIn ? "/documents" : "/login"}
 			className="flex justify-center"
 		>
 			<Button className="gap-2  justify-between" variant="default">

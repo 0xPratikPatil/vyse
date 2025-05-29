@@ -162,14 +162,14 @@ const app = new Hono<{
         });
 
         const updateData: any = {};
-        
+
         // Always set the fields that are provided
         if (title !== undefined) updateData.title = title;
         if (content !== undefined) updateData.content = content;
         if (description !== undefined) updateData.description = description;
         if (tags !== undefined) updateData.tags = tags;
         if (isShared !== undefined) updateData.isShared = isShared;
-        
+
         // Handle share link generation
         if (isShared === true && !existingDoc.shareLink) {
           updateData.shareLink = `${process.env.NEXT_PUBLIC_APP_URL}/shared/${id}`;

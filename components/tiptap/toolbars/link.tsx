@@ -6,7 +6,7 @@ import { Trash2, X } from "lucide-react";
 
 import React, { type FormEvent } from "react";
 
-import { Button, type ButtonProps } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -24,7 +24,7 @@ import {
 import { useToolbar } from "./toolbar-provider";
 import { getUrlFromString } from "@/lib/tiptap-utils";
 
-const LinkToolbar = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const LinkToolbar = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
 	({ className, ...props }, ref) => {
 		const { editor } = useToolbar();
 		const [link, setLink] = React.useState("");

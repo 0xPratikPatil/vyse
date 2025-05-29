@@ -1,18 +1,9 @@
 "use client";
 
 import * as React from "react";
-import {
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  PlusCircle,
-  FileText,
-  Clock,
-  Users,
-  Folder,
-} from "lucide-react";
+import { PlusCircle, FileText, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { NavMain } from "@/components/layout/sidebar/nav-main";
 import { NavUser } from "@/components/layout/sidebar/nav-user";
@@ -29,43 +20,94 @@ import {
 import { Session } from "@/types/auth";
 import Logo from "@/components/logo.png";
 import Image from "next/image";
-// import { NavWorkspace } from "./nav-workspaces";
 
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
+import {
+  useDocuments,
+  useCreateDocument,
+  Document,
+} from "@/features/documents/api/useDocuments";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 
 // Define types for menu items
 interface NavMenuItem {
   title: string;
   url: string;
   id?: string;
+  subtitle?: string;
 }
 
-// Sample documents list - in a real app this would come from an API
-const sampleDocuments = [
-  { id: "doc1", title: "Getting Started with Vyse", url: "/editor/doc1", date: new Date(2023, 6, 15) },
-  { id: "doc2", title: "Project Requirements", url: "/editor/doc2", date: new Date(2023, 6, 18) },
-  { id: "doc3", title: "Meeting Notes", url: "/editor/doc3", date: new Date(2023, 6, 20) },
-  { id: "doc4", title: "Research Findings", url: "/editor/doc4", date: new Date(2023, 6, 22) },
-  { id: "doc5", title: "Product Roadmap", url: "/editor/doc5", date: new Date(2023, 6, 25) },
-];
+// Initial content for new documents
+const defaultContent = `<h1>Welcome to your new document</h1><p>Start writing here...</p>`;
 
 export function AppSidebar({
   session,
   ...props
 }: { session: Session } & React.ComponentProps<typeof Sidebar>) {
+  const router = useRouter();
+  const { data: documentsResponse, isPending } = useDocuments();
+  const documents = documentsResponse?.data as Document[];
+  const createDocumentMutation = useCreateDocument();
+
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = React.useState(false);
+  const [newDocumentName, setNewDocumentName] = React.useState<string>("");
 
   const recentDocuments = React.useMemo(() => {
-    return [...sampleDocuments]
-      .sort((a, b) => b.date.getTime() - a.date.getTime())
+    if (!documents || documents.length === 0) return [];
+
+    return [...documents]
+      .sort(
+        (a, b) =>
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      )
       .slice(0, 5)
       .map((doc) => ({
-        title: doc.title,
-        url: doc.url,
+        title: doc.title || "Untitled document",
+        url: `/editor/${doc.id}`,
         id: doc.id,
-        date: formatDistanceToNow(doc.date, { addSuffix: true }),
       }));
-  }, []);
+  }, [documents]);
+
+  const handleCreateDocument = () => {
+    const documentData = {
+      title: newDocumentName.trim() || "Untitled document",
+      content: defaultContent,
+      tags: [],
+      description: "",
+    };
+
+    createDocumentMutation.mutate(
+      { json: documentData },
+      {
+        onSuccess: (response) => {
+          setIsCreateDialogOpen(false);
+          setNewDocumentName("");
+
+          // Navigate to the editor with the new document
+          if (response?.data?.id) {
+            router.push(`/editor/${response.data.id}`);
+          } else {
+            toast.error("Error accessing the new document");
+          }
+        },
+        onError: () => {
+          toast.error("Failed to create document");
+        },
+      }
+    );
+  };
 
   const data = {
     navMain: [
@@ -75,56 +117,18 @@ export function AppSidebar({
         icon: FileText,
         isActive: true,
         items: [
-          ...recentDocuments.map((doc) => ({
-            title: doc.title,
-            url: doc.url,
-            id: doc.id,
-            subtitle: doc.date,
-          })),
-          {
-            title: "View All Documents",
-            url: "/documents",
-          },
+          ...(isPending
+            ? [{ title: "Loading documents...", url: "#" }]
+            : recentDocuments.length > 0
+              ? [
+                  ...recentDocuments,
+                  { title: "View All Documents", url: "/documents" },
+                ]
+              : [
+                  { title: "No documents yet", url: "#" },
+                  { title: "View All Documents", url: "/documents" },
+                ]),
         ] as NavMenuItem[],
-      },
-      {
-        title: "Recent",
-        url: "/recent",
-        icon: Clock,
-      },
-      {
-        title: "Shared with me",
-        url: "/shared",
-        icon: Users,
-      },
-      {
-        title: "Projects",
-        url: "/projects",
-        icon: Folder,
-      },
-    ],
-    navSecondary: [
-      {
-        title: "Support",
-        url: "/settings/support",
-        icon: LifeBuoy,
-      },
-    ],
-    workspace: [
-      {
-        name: "Design Engineering",
-        url: "#",
-        icon: Frame,
-      },
-      {
-        name: "Sales & Marketing",
-        url: "#",
-        icon: PieChart,
-      },
-      {
-        name: "Travel",
-        url: "#",
-        icon: Map,
       },
     ],
   };
@@ -153,16 +157,16 @@ export function AppSidebar({
         <SidebarMenu>
           <SidebarMenuItem className="p-2">
             <SidebarMenuButton asChild>
-              <Link
-                href="/editor"
+              <Button
+                onClick={() => setIsCreateDialogOpen(true)}
                 className={cn(
                   "flex items-center gap-2 bg-primary/10 hover:bg-primary/20",
                   "px-4 py-2 rounded-md transition-colors text-primary font-medium"
                 )}
               >
                 <PlusCircle className="h-4 w-4" />
-                <span>New Document</span>
-              </Link>
+                <span className="">New Document</span>
+              </Button>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -172,6 +176,63 @@ export function AppSidebar({
       <SidebarFooter>
         <NavUser session={session} />
       </SidebarFooter>
+
+      {/* Create Document Dialog */}
+      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+        <DialogContent className="sm:max-w-md max-w-[90vw] w-full mx-auto p-5 sm:p-6">
+          <DialogHeader className="pb-3">
+            <DialogTitle className="text-xl">Create New Document</DialogTitle>
+            <DialogDescription className="pt-1.5">
+              Enter a name for your new document or leave blank for "Untitled
+              document".
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-3">
+            <Label
+              htmlFor="sidebar-document-name"
+              className="text-sm font-medium"
+            >
+              Document name
+            </Label>
+            <Input
+              id="sidebar-document-name"
+              value={newDocumentName}
+              onChange={(e) => setNewDocumentName(e.target.value)}
+              placeholder="Enter document name"
+              className="mt-2"
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleCreateDocument();
+                }
+              }}
+            />
+          </div>
+          <DialogFooter className="flex sm:flex-row flex-col gap-3 sm:gap-2 mt-3 pt-2">
+            <Button
+              variant="outline"
+              onClick={() => setIsCreateDialogOpen(false)}
+              className="sm:w-auto w-full order-1 sm:order-none"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleCreateDocument}
+              disabled={createDocumentMutation.isPending}
+              className="sm:w-auto w-full"
+            >
+              {createDocumentMutation.isPending ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Creating...
+                </>
+              ) : (
+                "Create"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Sidebar>
   );
 }

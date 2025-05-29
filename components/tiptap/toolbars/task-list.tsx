@@ -3,12 +3,12 @@
 import { CheckSquare } from "lucide-react"
 import React from "react"
 
-import { Button, type ButtonProps } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import { useToolbar } from "./toolbar-provider"
 
-const TaskListToolbar = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const TaskListToolbar = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
   ({ className, onClick, children, ...props }, ref) => {
     const { editor } = useToolbar()
 

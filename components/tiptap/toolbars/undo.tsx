@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, type ButtonProps } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
 	Tooltip,
 	TooltipContent,
@@ -11,7 +11,7 @@ import { useToolbar } from "./toolbar-provider";
 import { Undo2 } from "lucide-react";
 import React from "react";
 
-const UndoToolbar = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const UndoToolbar = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
 	({ className, onClick, children, ...props }, ref) => {
 		const { editor } = useToolbar();
 

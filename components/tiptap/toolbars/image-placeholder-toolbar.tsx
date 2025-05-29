@@ -3,7 +3,7 @@
 import { Image } from "lucide-react";
 import React from "react";
 
-import { Button, type ButtonProps } from "@/components/ui/button";
+import { Button} from "@/components/ui/button";
 import {
 	Tooltip,
 	TooltipContent,
@@ -14,7 +14,7 @@ import { useToolbar } from "./toolbar-provider";
 
 const ImagePlaceholderToolbar = React.forwardRef<
 	HTMLButtonElement,
-	ButtonProps
+	React.ComponentProps<typeof Button>
 >(({ className, onClick, children, ...props }, ref) => {
 	const { editor } = useToolbar();
 	return (

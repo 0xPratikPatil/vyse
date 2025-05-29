@@ -3,7 +3,7 @@
 import { SeparatorHorizontal } from "lucide-react";
 import React from "react";
 
-import { Button, type ButtonProps } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
 	Tooltip,
 	TooltipContent,
@@ -12,7 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useToolbar } from "./toolbar-provider";
 
-const HorizontalRuleToolbar = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const HorizontalRuleToolbar = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
 	({ className, onClick, children, ...props }, ref) => {
 		const { editor } = useToolbar();
 		return (

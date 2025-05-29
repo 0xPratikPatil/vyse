@@ -207,25 +207,19 @@ export default function DocumentsPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-full overflow-auto">
       <div className="p-4 sm:p-6 max-w-4xl mx-auto w-full">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-xl sm:text-2xl font-bold">Documents</h1>
 
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  className="flex items-center gap-2"
-                  onClick={() => setIsCreateDialogOpen(true)}
-                >
-                  <PlusCircle className="h-4 w-4" />
-                  <span>New Document</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Create a new document</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Button
+            className="flex items-center gap-2 sm:w-auto"
+            onClick={() => setIsCreateDialogOpen(true)}
+          >
+            <PlusCircle className="h-4 w-4" />
+            <span className="sm:inline hidden">New Document</span>
+            <span className="sm:hidden inline">New</span>
+          </Button>
         </div>
 
         {isLoading ? (
@@ -233,7 +227,7 @@ export default function DocumentsPage() {
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
         ) : documents && documents.length > 0 ? (
-          <div className="grid gap-4">
+          <div className="grid gap-4 pb-6">
             {documents.map((document: Document) => (
               <div
                 key={document.id}
@@ -367,20 +361,21 @@ export default function DocumentsPage() {
 
       {/* Create Document Dialog */}
       <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create New Document</DialogTitle>
-            <DialogDescription>
-              Enter a name for your new document.
+        <DialogContent className="sm:max-w-md max-w-[90vw] w-full mx-auto p-5 sm:p-6">
+          <DialogHeader className="pb-3">
+            <DialogTitle className="text-xl">Create New Document</DialogTitle>
+            <DialogDescription className="pt-1.5">
+              Enter a name for your new document or leave blank for "Untitled document".
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <Label htmlFor="document-name">Document name</Label>
+          <div className="py-3">
+            <Label htmlFor="sidebar-document-name" className="text-sm font-medium">Document name</Label>
             <Input
-              id="document-name"
+              id="sidebar-document-name"
               value={newDocumentName}
               onChange={(e) => setNewDocumentName(e.target.value)}
               placeholder="Enter document name"
+              className="mt-2"
               autoFocus
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -389,16 +384,18 @@ export default function DocumentsPage() {
               }}
             />
           </div>
-          <DialogFooter>
+          <DialogFooter className="flex sm:flex-row flex-col gap-3 sm:gap-2 mt-3 pt-2">
             <Button
               variant="outline"
               onClick={() => setIsCreateDialogOpen(false)}
+              className="sm:w-auto w-full order-1 sm:order-none"
             >
               Cancel
             </Button>
             <Button
               onClick={handleCreateDocument}
-              disabled={!newDocumentName.trim() || createDocumentMutation.isPending}
+              disabled={createDocumentMutation.isPending}
+              className="sm:w-auto w-full"
             >
               {createDocumentMutation.isPending ? (
                 <>
@@ -455,7 +452,7 @@ export default function DocumentsPage() {
 
       {/* Rename Dialog */}
       <Dialog open={isRenameDialogOpen} onOpenChange={setIsRenameDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-md max-w-[95vw] w-full mx-auto">
           <DialogHeader>
             <DialogTitle>Rename Document</DialogTitle>
             <DialogDescription>
@@ -477,16 +474,18 @@ export default function DocumentsPage() {
               }}
             />
           </div>
-          <DialogFooter>
+          <DialogFooter className="flex sm:flex-row flex-col gap-2 sm:gap-0">
             <Button
               variant="outline"
               onClick={() => setIsRenameDialogOpen(false)}
+              className="sm:w-auto w-full order-1 sm:order-none"
             >
               Cancel
             </Button>
             <Button
               onClick={handleRenameConfirm}
               disabled={!newDocumentTitle.trim() || updateDocumentMutation.isPending}
+              className="sm:w-auto w-full"
             >
               {updateDocumentMutation.isPending ? (
                 <>

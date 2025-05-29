@@ -5,10 +5,6 @@ import {
   ChevronsUpDown,
   LogOut,
   User,
-  ShieldCheck,
-  Key,
-  Server,
-  Bot,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -42,27 +38,7 @@ const sidebarNavItems = [
     title: "Account",
     href: "/settings/account",
     icon: <BadgeCheck className="w-5 h-5" />,
-  },
-  {
-    title: "Security",
-    href: "/settings/security",
-    icon: <ShieldCheck className="w-5 h-5" />,
-  },
-  {
-    title: "Models",
-    href: "/settings/models",
-    icon: <Bot className="w-5 h-5" />,
-  },
-  {
-    title: "API Keys",
-    href: "/settings/api-keys",
-    icon: <Key className="w-5 h-5" />,
-  },
-  {
-    title: "MCP Servers",
-    href: "/settings/mcp-servers",
-    icon: <Server className="w-5 h-5" />,
-  },
+  }
 ];
 
 export function NavUser({ session }: { session: Session }) {

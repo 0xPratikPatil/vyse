@@ -17,13 +17,15 @@ import React from "react";
 // Save status type for tracking document state
 type SaveStatus = "saved" | "saving" | "error" | "idle";
 
-export default function EditorPage({ params }: { params: { id: string } }) {
-  // Safely unwrap params for future Next.js compatibility
-  const resolvedParams = React.use(
-    params as unknown as Promise<{ id: string }>
-  );
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
 
-  const { data: documentResponse, isPending, error } = useDocument(resolvedParams.id);
+export default function EditorPage({ params }: PageProps) {
+  const resolvedParams = React.use(params);
+  const documentId = resolvedParams.id;
+  
+  const { data: documentResponse, isPending, error } = useDocument(documentId);
   const document = documentResponse?.data as Document;
   const updateDocumentMutation = useUpdateDocument();
 
@@ -259,7 +261,7 @@ export default function EditorPage({ params }: { params: { id: string } }) {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between p-2 border-b">
-        <div className="flex-1 max-w-sm bg-black">
+        <div className="flex-1 max-w-sm">
           <Input
             value={title}
             onChange={(e) => handleTitleChange(e.target.value)}
