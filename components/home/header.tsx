@@ -8,8 +8,8 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 
 const menuItems = [
-    { name: 'Features', href: '#features' },
-    { name: 'FAQ', href: '#faq' },
+    { name: 'Features', href: '/#features' },
+    { name: 'FAQ', href: '/#faq' },
     { name: 'About', href: '/about' },
     { name: 'Team', href: '/team' },
 ]
