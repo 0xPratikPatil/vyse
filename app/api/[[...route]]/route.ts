@@ -1,9 +1,13 @@
 import { auth } from "@/lib/auth/auth";
 import { Session } from "@/types/auth";
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
 import documentsRoute from "@/features/documents/server/route";
 import settingsRoute from "@/features/settings/server/route";
+
+
+
 
 const app = new Hono<{
   Variables: {
@@ -11,6 +15,11 @@ const app = new Hono<{
     session: Session["session"] | null;
   };
 }>().basePath("/api");
+
+app.use(cors({
+  origin: [process.env.NEXT_PUBLIC_APP_URL!],
+  credentials: true,
+}));
 
 app.use("*", async (c, next) => {
   const session = await auth.api.getSession({ headers: c.req.raw.headers });
