@@ -77,7 +77,7 @@ function TiptapImage(props: NodeViewProps) {
   const nodeRef = useRef<HTMLDivElement | null>(null);
   const [resizing, setResizing] = useState(false);
   const [resizingPosition, setResizingPosition] = useState<"left" | "right">(
-    "left"
+    "left",
   );
   const [resizeInitialWidth, setResizeInitialWidth] = useState(0);
   const [resizeInitialMouseX, setResizeInitialMouseX] = useState(0);
@@ -151,7 +151,7 @@ function TiptapImage(props: NodeViewProps) {
 
   function handleTouchStart(
     event: React.TouchEvent,
-    position: "left" | "right"
+    position: "left" | "right",
   ) {
     event.preventDefault();
     setResizing(true);
@@ -165,9 +165,12 @@ function TiptapImage(props: NodeViewProps) {
   function handleTouchMove(event: TouchEvent) {
     if (!resizing) return;
 
-    let dx = (event.touches[0]?.clientX ?? resizeInitialMouseX) - resizeInitialMouseX;
+    let dx =
+      (event.touches[0]?.clientX ?? resizeInitialMouseX) - resizeInitialMouseX;
     if (resizingPosition === "left") {
-      dx = resizeInitialMouseX - (event.touches[0]?.clientX ?? resizeInitialMouseX);
+      dx =
+        resizeInitialMouseX -
+        (event.touches[0]?.clientX ?? resizeInitialMouseX);
     }
 
     const newWidth = Math.max(resizeInitialWidth + dx, 150);
@@ -235,14 +238,14 @@ function TiptapImage(props: NodeViewProps) {
         selected ? "border-blue-300" : "",
         node.attrs.align === "left" && "left-0 -translate-x-0",
         node.attrs.align === "center" && "left-1/2 -translate-x-1/2",
-        node.attrs.align === "right" && "left-full -translate-x-full"
+        node.attrs.align === "right" && "left-full -translate-x-full",
       )}
       style={{ width: node.attrs.width }}
     >
       <div
         className={cn(
           "group relative flex flex-col rounded-md",
-          resizing && ""
+          resizing && "",
         )}
       >
         <figure className="relative m-0">
@@ -308,14 +311,14 @@ function TiptapImage(props: NodeViewProps) {
             className={cn(
               "absolute right-4 top-4 flex items-center gap-1 rounded-md border bg-background/80 p-1 opacity-0 backdrop-blur transition-opacity",
               !resizing && "group-hover:opacity-100",
-              openedMore && "opacity-100"
+              openedMore && "opacity-100",
             )}
           >
             <Button
               size="icon"
               className={cn(
                 "size-7",
-                node.attrs.align === "left" && "bg-accent"
+                node.attrs.align === "left" && "bg-accent",
               )}
               variant="ghost"
               onClick={() => updateAttributes({ align: "left" })}
@@ -326,7 +329,7 @@ function TiptapImage(props: NodeViewProps) {
               size="icon"
               className={cn(
                 "size-7",
-                node.attrs.align === "center" && "bg-accent"
+                node.attrs.align === "center" && "bg-accent",
               )}
               variant="ghost"
               onClick={() => updateAttributes({ align: "center" })}
@@ -337,7 +340,7 @@ function TiptapImage(props: NodeViewProps) {
               size="icon"
               className={cn(
                 "size-7",
-                node.attrs.align === "right" && "bg-accent"
+                node.attrs.align === "right" && "bg-accent",
               )}
               variant="ghost"
               onClick={() => updateAttributes({ align: "right" })}

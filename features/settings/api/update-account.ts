@@ -23,7 +23,7 @@ export const updateAccount = () => {
     },
     onError: (error: Error) => {
       toast.error(
-        error.message || "Something went wrong while updating profile"
+        error.message || "Something went wrong while updating profile",
       );
     },
   });

@@ -10,15 +10,13 @@ export default function CallToAction() {
             Write Without <span className="text-primary">Limits</span>
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            Vyse is your space to think, create, and focus. No clutter. No distractions. Just you and your words—beautifully simple, endlessly powerful.
+            Vyse is your space to think, create, and focus. No clutter. No
+            distractions. Just you and your words—beautifully simple, endlessly
+            powerful.
           </p>
 
           <div className="mt-12 flex flex-wrap justify-center gap-4">
-            <Button
-              asChild
-              size="lg"
-
-            >
+            <Button asChild size="lg">
               <Link href="/register">
                 <span>Start Writing Free</span>
               </Link>

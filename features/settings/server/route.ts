@@ -5,7 +5,6 @@ import db from "@/lib/db";
 import { Session } from "@/types/auth";
 import APIResponse from "@/helper/apiResponse";
 
-
 const app = new Hono<{
   Variables: {
     user: Session["user"] | null;
@@ -28,12 +27,12 @@ const app = new Hono<{
 
       return c.json(
         new APIResponse(200, "Profile updated successfully.", null),
-        200
+        200,
       );
     } catch (error) {
       return c.json(
         new APIResponse(500, "Failed to update profile", null),
-        500
+        500,
       );
     }
   })
@@ -53,12 +52,12 @@ const app = new Hono<{
 
       return c.json(
         new APIResponse(200, "Account updated successfully.", null),
-        200
+        200,
       );
     } catch (error) {
       return c.json(
         new APIResponse(500, "Failed to update account", null),
-        500
+        500,
       );
     }
   })
@@ -73,9 +72,9 @@ const app = new Hono<{
       }
       return c.json(
         new APIResponse(200, "Security updated successfully.", null),
-        200
+        200,
       );
-    }
-  )
+    },
+  );
 
 export default app;

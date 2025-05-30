@@ -12,4 +12,3 @@ export const getSession = async () => {
 
   return session;
 };
-

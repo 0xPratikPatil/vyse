@@ -17,18 +17,18 @@ export const profileFormSchema = z.object({
       (value) =>
         value === null ||
         ["unspecified", "he/him", "she/her", "they/them"].includes(
-          value as string
+          value as string,
         ),
       {
         message: "Please select a valid pronoun option",
-      }
+      },
     ),
   bio: z.string().max(160).min(4).nullable().optional(),
   urls: z
     .array(
       z.object({
         value: z.string().url({ message: "Please enter a valid URL." }),
-      })
+      }),
     )
     .nullable()
     .optional(),

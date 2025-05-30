@@ -59,7 +59,11 @@ const defaultContent = `<h1>Welcome to your new document</h1><p>Start writing he
 
 export default function DocumentsPage() {
   const router = useRouter();
-  const { data: documentsResponse, isPending: isLoading, error } = useDocuments();
+  const {
+    data: documentsResponse,
+    isPending: isLoading,
+    error,
+  } = useDocuments();
   const documents = documentsResponse?.data as Document[];
 
   const deleteDocumentMutation = useDeleteDocument();
@@ -67,9 +71,13 @@ export default function DocumentsPage() {
   const createDocumentMutation = useCreateDocument();
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [documentToDelete, setDocumentToDelete] = useState<Document | null>(null);
+  const [documentToDelete, setDocumentToDelete] = useState<Document | null>(
+    null,
+  );
   const [isRenameDialogOpen, setIsRenameDialogOpen] = useState(false);
-  const [documentToRename, setDocumentToRename] = useState<Document | null>(null);
+  const [documentToRename, setDocumentToRename] = useState<Document | null>(
+    null,
+  );
   const [newDocumentTitle, setNewDocumentTitle] = useState<string>("");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [newDocumentName, setNewDocumentName] = useState<string>("");
@@ -88,7 +96,7 @@ export default function DocumentsPage() {
       title: newDocumentName.trim(),
       content: defaultContent,
       tags: [],
-      description: '',
+      description: "",
     };
 
     createDocumentMutation.mutate(
@@ -97,7 +105,7 @@ export default function DocumentsPage() {
         onSuccess: (response) => {
           setIsCreateDialogOpen(false);
           setNewDocumentName("");
-          
+
           // Navigate to the editor with the new document
           if (response?.data?.id) {
             router.push(`/editor/${response.data.id}`);
@@ -105,7 +113,7 @@ export default function DocumentsPage() {
             toast.error("Error accessing the new document");
           }
         },
-      }
+      },
     );
   };
 
@@ -121,7 +129,9 @@ export default function DocumentsPage() {
       {
         onSuccess: (response) => {
           // Then copy the share link to clipboard
-          const shareLink = response.data.shareLink || `${window.location.origin}/shared/${documentId}`;
+          const shareLink =
+            response.data.shareLink ||
+            `${window.location.origin}/shared/${documentId}`;
           navigator.clipboard
             .writeText(shareLink)
             .then(() => {
@@ -131,7 +141,7 @@ export default function DocumentsPage() {
               toast.error("Failed to copy link to clipboard");
             });
         },
-      }
+      },
     );
   };
 
@@ -164,7 +174,7 @@ export default function DocumentsPage() {
           setIsRenameDialogOpen(false);
           setDocumentToRename(null);
         },
-      }
+      },
     );
   };
 
@@ -194,7 +204,7 @@ export default function DocumentsPage() {
           setDocumentToDelete(null);
           setIsDeleteDialogOpen(false);
         },
-      }
+      },
     );
   };
 
@@ -316,7 +326,9 @@ export default function DocumentsPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem
-                          onClick={() => handleShare(document.id, document.title)}
+                          onClick={() =>
+                            handleShare(document.id, document.title)
+                          }
                         >
                           <Share2 className="h-4 w-4 mr-2" />
                           Share
@@ -348,7 +360,7 @@ export default function DocumentsPage() {
             <p className="text-muted-foreground mb-4">
               Create your first document to get started
             </p>
-            <Button 
+            <Button
               className="flex items-center gap-2"
               onClick={() => setIsCreateDialogOpen(true)}
             >
@@ -365,11 +377,17 @@ export default function DocumentsPage() {
           <DialogHeader className="pb-3">
             <DialogTitle className="text-xl">Create New Document</DialogTitle>
             <DialogDescription className="pt-1.5">
-              Enter a name for your new document or leave blank for "Untitled document".
+              Enter a name for your new document or leave blank for "Untitled
+              document".
             </DialogDescription>
           </DialogHeader>
           <div className="py-3">
-            <Label htmlFor="sidebar-document-name" className="text-sm font-medium">Document name</Label>
+            <Label
+              htmlFor="sidebar-document-name"
+              className="text-sm font-medium"
+            >
+              Document name
+            </Label>
             <Input
               id="sidebar-document-name"
               value={newDocumentName}
@@ -420,8 +438,8 @@ export default function DocumentsPage() {
             <AlertDialogTitle>Delete Document</AlertDialogTitle>
             <AlertDialogDescription>
               Are you sure you want to delete "
-              {documentToDelete?.title || "Untitled document"}"? This action cannot be
-              undone.
+              {documentToDelete?.title || "Untitled document"}"? This action
+              cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -484,7 +502,9 @@ export default function DocumentsPage() {
             </Button>
             <Button
               onClick={handleRenameConfirm}
-              disabled={!newDocumentTitle.trim() || updateDocumentMutation.isPending}
+              disabled={
+                !newDocumentTitle.trim() || updateDocumentMutation.isPending
+              }
               className="sm:w-auto w-full"
             >
               {updateDocumentMutation.isPending ? (

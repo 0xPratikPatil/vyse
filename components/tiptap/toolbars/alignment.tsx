@@ -82,8 +82,10 @@ export const AlignmentTooolbar = () => {
 
   if (isMobile) {
     return (
-      <MobileToolbarGroup 
-        label={alignmentOptions[findIndex(currentTextAlign())]?.name ?? "Left Align"}
+      <MobileToolbarGroup
+        label={
+          alignmentOptions[findIndex(currentTextAlign())]?.name ?? "Left Align"
+        }
       >
         {alignmentOptions.map((option, index) => (
           <MobileToolbarItem

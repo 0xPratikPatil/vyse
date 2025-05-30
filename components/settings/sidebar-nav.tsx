@@ -26,7 +26,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
     <nav
       className={cn(
         "flex flex-col overflow-x-auto whitespace-nowrap max-w-xs",
-        className
+        className,
       )}
       {...props}
     >
@@ -40,7 +40,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
                 pathname === item.href
                   ? "bg-muted hover:bg-muted"
                   : "hover:bg-transparent hover:underline",
-                "justify-start text-sm md:text-base"
+                "justify-start text-sm md:text-base",
               )}
               onClick={
                 item.items
@@ -64,7 +64,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
                       pathname === subItem.href
                         ? "bg-muted hover:bg-muted"
                         : "hover:bg-transparent hover:underline",
-                      "justify-start text-sm md:text-base"
+                      "justify-start text-sm md:text-base",
                     )}
                   >
                     {subItem.title}

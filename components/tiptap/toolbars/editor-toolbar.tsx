@@ -39,48 +39,26 @@ export const EditorToolbar = ({
   documentTitle,
 }: EditorToolbarProps) => {
   const isMobile = useMediaQuery("(max-width: 640px)");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   if (isMobile) {
     return (
-      <div className="sticky top-0 z-30 w-full border-b bg-background">
-        <div className="flex items-center justify-between p-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex items-center gap-2"
-          >
-            {mobileMenuOpen ? (
-              <X className="h-4 w-4" />
-            ) : (
-              <Menu className="h-4 w-4" />
-            )}
-            <span>{documentTitle ? documentTitle : "Editor Tools"}</span>
-            {mobileMenuOpen ? (
-              <ChevronUp className="h-4 w-4" />
-            ) : (
-              <ChevronDown className="h-4 w-4" />
-            )}
-          </Button>
-          <ToolbarProvider editor={editor}>
-            <div className="flex items-center gap-1">
-              <UndoToolbar />
-              <RedoToolbar />
-            </div>
-          </ToolbarProvider>
-        </div>
+      <div className="sticky top-0 z-30 w-full border-b bg-background shadow-sm">
+        <ToolbarProvider editor={editor}>
+          <TooltipProvider>
+            <ScrollArea className="h-fit py-0.5">
+              <div>
+                <div className="flex items-center gap-1 px-2 min-w-max overflow-x-auto">
+                  {/* History Group */}
+                  <UndoToolbar />
+                  <RedoToolbar />
+                  <Separator orientation="vertical" className="mx-1 h-7" />
 
-        {mobileMenuOpen && (
-          <ToolbarProvider editor={editor}>
-            <TooltipProvider>
-              <ScrollArea className="h-fit max-h-[50vh] py-0.5 border-t">
-                <div className="p-2 grid grid-cols-4 gap-1">
                   {/* Text Structure Group */}
                   <HeadingsToolbar />
                   <BlockquoteToolbar />
                   <CodeToolbar />
                   <CodeBlockToolbar />
+                  <Separator orientation="vertical" className="mx-1 h-7" />
 
                   {/* Basic Formatting Group */}
                   <BoldToolbar />
@@ -88,30 +66,36 @@ export const EditorToolbar = ({
                   <UnderlineToolbar />
                   <StrikeThroughToolbar />
                   <LinkToolbar />
+                  <Separator orientation="vertical" className="mx-1 h-7" />
 
                   {/* Lists & Structure Group */}
                   <BulletListToolbar />
                   <OrderedListToolbar />
                   <HorizontalRuleToolbar />
                   <TaskListToolbar />
+                  <Separator orientation="vertical" className="mx-1 h-7" />
 
                   {/* Alignment Group */}
                   <AlignmentTooolbar />
+                  <Separator orientation="vertical" className="mx-1 h-7" />
 
                   {/* Media & Styling Group */}
                   <ImagePlaceholderToolbar />
                   <TableToolbar />
                   <YoutubePlaceholderToolbar />
                   <ColorHighlightToolbar />
+                  <Separator orientation="vertical" className="mx-1 h-7" />
+
+                  <div className="flex-1" />
 
                   {/* Utility Group */}
                   <SearchAndReplaceToolbar />
                 </div>
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
-            </TooltipProvider>
-          </ToolbarProvider>
-        )}
+              </div>
+              <ScrollBar className="hidden" orientation="horizontal" />
+            </ScrollArea>
+          </TooltipProvider>
+        </ToolbarProvider>
       </div>
     );
   }

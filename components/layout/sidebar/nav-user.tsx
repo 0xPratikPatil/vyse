@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  BadgeCheck,
-  ChevronsUpDown,
-  LogOut,
-  User,
-} from "lucide-react";
+import { BadgeCheck, ChevronsUpDown, LogOut, User } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -38,7 +33,7 @@ const sidebarNavItems = [
     title: "Account",
     href: "/settings/account",
     icon: <BadgeCheck className="w-5 h-5" />,
-  }
+  },
 ];
 
 export function NavUser({ session }: { session: Session }) {

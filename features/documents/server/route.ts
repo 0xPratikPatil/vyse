@@ -29,13 +29,13 @@ const app = new Hono<{
 
       return c.json(
         new APIResponse(200, "Documents fetched successfully", documents),
-        200
+        200,
       );
     } catch (error) {
       console.error("Error fetching documents:", error);
       return c.json(
         new APIResponse(500, "Failed to fetch documents", null),
-        500
+        500,
       );
     }
   })
@@ -48,7 +48,7 @@ const app = new Hono<{
         content: z.string().optional(),
         description: z.string().optional(),
         tags: z.array(z.string()).optional(),
-      })
+      }),
     ),
     async (c) => {
       const userId = c.get("user")?.id;
@@ -71,16 +71,16 @@ const app = new Hono<{
 
         return c.json(
           new APIResponse(201, "Document created successfully", document),
-          201
+          201,
         );
       } catch (error) {
         console.error("Error creating document:", error);
         return c.json(
           new APIResponse(500, "Failed to create document", null),
-          500
+          500,
         );
       }
-    }
+    },
   )
 
   .get(
@@ -108,16 +108,16 @@ const app = new Hono<{
 
         return c.json(
           new APIResponse(200, "Document fetched successfully", document),
-          200
+          200,
         );
       } catch (error) {
         console.error("Error fetching document:", error);
         return c.json(
           new APIResponse(500, "Failed to fetch document", null),
-          500
+          500,
         );
       }
-    }
+    },
   )
   .post(
     "/update-document-by-id",
@@ -130,7 +130,7 @@ const app = new Hono<{
         description: z.string().optional(),
         tags: z.array(z.string()).optional(),
         isShared: z.boolean().optional(),
-      })
+      }),
     ),
     async (c) => {
       const userId = c.get("user")?.id;
@@ -184,16 +184,16 @@ const app = new Hono<{
 
         return c.json(
           new APIResponse(200, "Document saved successfully", updatedDoc),
-          200
+          200,
         );
       } catch (error) {
         console.error("Error updating document:", error);
         return c.json(
           new APIResponse(500, "Failed to update document", null),
-          500
+          500,
         );
       }
-    }
+    },
   )
   .post(
     "/delete-document-by-id",
@@ -226,16 +226,16 @@ const app = new Hono<{
 
         return c.json(
           new APIResponse(200, "Document deleted successfully", null),
-          200
+          200,
         );
       } catch (error) {
         console.error("Error deleting document:", error);
         return c.json(
           new APIResponse(500, "Failed to delete document", null),
-          500
+          500,
         );
       }
-    }
+    },
   );
 
 export default app;

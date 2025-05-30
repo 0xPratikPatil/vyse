@@ -5,12 +5,13 @@ import FooterSection from "@/components/home/footer";
 import CallToAction from "@/components/home/call-to-action";
 
 export default function Home() {
-    return <>
-        <HeroSection />
-        <FeaturesSection />
-        <FAQsSection/>
-        <CallToAction/>
-        <FooterSection/>
+  return (
+    <>
+      <HeroSection />
+      <FeaturesSection />
+      <FAQsSection />
+      <CallToAction />
+      <FooterSection />
     </>
-
+  );
 }

@@ -17,13 +17,13 @@ export function useImageUpload({ onUpload }: UseImageUploadProps = {}) {
     try {
       setUploading(true);
       // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       // Simulate random upload errors (20% chance)
       if (Math.random() < 0.2) {
         throw new Error("Upload failed - This is a demo error");
       }
-      
+
       setError(null);
       // In a real implementation, this would be the URL from the server
       return localUrl;
@@ -56,11 +56,11 @@ export function useImageUpload({ onUpload }: UseImageUploadProps = {}) {
           URL.revokeObjectURL(localUrl);
           setPreviewUrl(null);
           setFileName(null);
-          return console.error(err)
+          return console.error(err);
         }
       }
     },
-    [onUpload]
+    [onUpload],
   );
 
   const handleRemove = useCallback(() => {

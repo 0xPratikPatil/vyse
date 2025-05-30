@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {  CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { AlertCircle, Loader2, Mail } from "lucide-react";
@@ -295,12 +295,12 @@ const SettingsAccountPage = ({ session }: { session: Session }) => {
                         role="combobox"
                         className={cn(
                           "w-[200px] justify-between",
-                          !field.value && "text-muted-foreground"
+                          !field.value && "text-muted-foreground",
                         )}
                       >
                         {field.value
                           ? languages.find(
-                              (language) => language.value === field.value
+                              (language) => language.value === field.value,
                             )?.label
                           : "Select language"}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -326,7 +326,7 @@ const SettingsAccountPage = ({ session }: { session: Session }) => {
                                   "mr-2 h-4 w-4",
                                   language.value === field.value
                                     ? "opacity-100"
-                                    : "opacity-0"
+                                    : "opacity-0",
                                 )}
                               />
                               {language.label}

@@ -115,7 +115,7 @@ export default function LoginCard() {
                   onSuccess: () => {
                     router.push("/documents");
                   },
-                }
+                },
               );
             }}
           >

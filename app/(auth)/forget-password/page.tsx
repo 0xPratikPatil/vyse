@@ -2,13 +2,20 @@
 
 import { Wrapper } from "@/components/auth/wrapper";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth/auth-client";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
-import Link from 'next/link';
+import Link from "next/link";
 import { useState } from "react";
 
 export default function Component() {
@@ -44,8 +51,8 @@ export default function Component() {
               {isSubmitted ? "Check your email" : "Recover Password"}
             </CardTitle>
             <CardDescription className="text-sm text-muted-foreground">
-              {isSubmitted 
-                ? "We've sent a password reset link to your email." 
+              {isSubmitted
+                ? "We've sent a password reset link to your email."
                 : "Enter your email to receive a reset link"}
             </CardDescription>
           </CardHeader>
@@ -60,9 +67,10 @@ export default function Component() {
                   </AlertDescription>
                 </Alert>
 
-                <Button 
+                <Button
                   className="w-full mt-6"
-                  onClick={() => setIsSubmitted(false)}>
+                  onClick={() => setIsSubmitted(false)}
+                >
                   Back to reset password
                 </Button>
               </div>
@@ -70,9 +78,7 @@ export default function Component() {
               <form onSubmit={handleSubmit}>
                 <div className="grid gap-4">
                   <div className="grid gap-2">
-                    <Label
-                      htmlFor="email"
-                      className="text-sm font-medium">
+                    <Label htmlFor="email" className="text-sm font-medium">
                       Email
                     </Label>
                     <Input
@@ -86,7 +92,7 @@ export default function Component() {
                       className="h-10"
                     />
                   </div>
-                  
+
                   {error && (
                     <Alert variant="destructive" className="py-2 text-sm">
                       <AlertCircle className="h-4 w-4" />
@@ -94,10 +100,11 @@ export default function Component() {
                     </Alert>
                   )}
 
-                  <Button 
+                  <Button
                     className="w-full mt-2"
                     type="submit"
-                    disabled={isSubmitting}>
+                    disabled={isSubmitting}
+                  >
                     {isSubmitting ? "Sending..." : "Send Reset Link"}
                   </Button>
                 </div>
@@ -116,10 +123,7 @@ export default function Component() {
             <div className="w-full">
               <p className="text-center text-sm">
                 Remembered your password?
-                <Button
-                  asChild
-                  variant="link"
-                  className="px-2 h-auto">
+                <Button asChild variant="link" className="px-2 h-auto">
                   <Link href="/login">Log in</Link>
                 </Button>
               </p>

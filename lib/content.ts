@@ -100,4 +100,4 @@ console.log(greeting);</code></pre>
   
   <h2>Start Creating with Vyse Today</h2>
   <p>Vyse makes document creation simple, powerful, and beautiful. Begin typing or use the toolbar to format your content.</p>
-`
+`;

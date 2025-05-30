@@ -43,14 +43,14 @@
 
 Vyse is just getting started. Here's a sneak peek at what’s coming soon:
 
-| Feature                 | Status    | Description                                      |
-|------------------------|-----------|--------------------------------------------------|
-| 🤖 AI Agents           | 🧠 Planned | Get suggestions, grammar help, or formatting tips |
-| ✨ AI Content Tools     | 🧠 Planned | Summarize, rewrite, generate — powered by LLMs    |
+| Feature                    | Status     | Description                                       |
+| -------------------------- | ---------- | ------------------------------------------------- |
+| 🤖 AI Agents               | 🧠 Planned | Get suggestions, grammar help, or formatting tips |
+| ✨ AI Content Tools        | 🧠 Planned | Summarize, rewrite, generate — powered by LLMs    |
 | 🤝 Real-Time Collaboration | 🛠 Planned | Co-edit docs live with friends or teammates       |
-| 💬 Inline Comments     | 🛠 Planned | Leave feedback or notes like Google Docs         |
-| 🕒 Document History     | 🛠 Planned | Track changes and restore older versions         |
-| 📄 Multi-Page Support  | 🛠 Planned | Organize longer documents like chapters          |
+| 💬 Inline Comments         | 🛠 Planned | Leave feedback or notes like Google Docs          |
+| 🕒 Document History        | 🛠 Planned | Track changes and restore older versions          |
+| 📄 Multi-Page Support      | 🛠 Planned | Organize longer documents like chapters           |
 
 ---
 
@@ -69,12 +69,12 @@ Vyse is fully open source and maintained by [**@0xpratikpatil**](https://github.
 
 ## 👀 Who’s Vyse for?
 
-Vyse is made for *anyone who writes*:
+Vyse is made for _anyone who writes_:
 
-- Writers & Bloggers ✍️  
-- Students & Academics 📚  
-- Developers writing documentation 💻  
-- Creatives planning ideas 🧠  
+- Writers & Bloggers ✍️
+- Students & Academics 📚
+- Developers writing documentation 💻
+- Creatives planning ideas 🧠
 - You.
 
 ---

@@ -1,13 +1,14 @@
 {
   "name": "vyse",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "private": true,
   "description": "Vyse is a sleek, powerful online text editor built for modern creators. With rich formatting, image uploads, smart search, YouTube embeds, and secure sharing it's everything you need to write, edit, and collaborate effortlessly",
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@better-auth/cli": "^1.2.8",
@@ -101,6 +102,7 @@
     "eslint-config-next": "15.3.2",
     "tailwindcss": "^4.1.8",
     "tw-animate-css": "^1.3.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "prettier": "^3.2.5"
   }
 }

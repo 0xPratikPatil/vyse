@@ -6,7 +6,7 @@ export class APIResponse {
   constructor(
     statusCode: number,
     message: string | null = null,
-    data: string | any | null
+    data: string | any | null,
   ) {
     this.status = statusCode <= 400 ? "success" : "error";
     this.message = message;

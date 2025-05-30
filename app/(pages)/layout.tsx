@@ -1,6 +1,6 @@
-import React from 'react';
-import { HeroHeader } from '@/components/home/header';
-import FooterSection from '@/components/home/footer';
+import React from "react";
+import { HeroHeader } from "@/components/home/header";
+import FooterSection from "@/components/home/footer";
 
 export default function MarketingLayout({
   children,
@@ -16,4 +16,4 @@ export default function MarketingLayout({
       <FooterSection />
     </>
   );
-} 
+}

@@ -1,5 +1,5 @@
 import { betterAuth } from "better-auth";
-import { bearer, username, } from "better-auth/plugins";
+import { bearer, username } from "better-auth/plugins";
 import { reactResetPasswordEmail } from "@/components/email/rest-password";
 import { resend } from "@/lib/resend";
 import { prismaAdapter } from "better-auth/adapters/prisma";
@@ -26,9 +26,6 @@ export const auth = betterAuth({
       });
     },
   },
-  plugins: [
-    bearer(),
-    username(),
-  ],
+  plugins: [bearer(), username()],
   advanced: { cookiePrefix: process.env.APP_NAME! },
 });

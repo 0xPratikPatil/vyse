@@ -193,7 +193,9 @@ export const YoutubeToolbar = (props: { closeDrawer?: () => void } = {}) => {
               <Button
                 variant="ghost"
                 size="sm"
-                className={cn("h-8 w-max gap-1 px-3 font-normal flex items-center justify-center")}
+                className={cn(
+                  "h-8 w-max gap-1 px-3 font-normal flex items-center justify-center",
+                )}
                 disabled={isDisabled}
                 onClick={() => setIsOpen((v) => !v)}
                 tabIndex={0}
@@ -209,7 +211,7 @@ export const YoutubeToolbar = (props: { closeDrawer?: () => void } = {}) => {
         <PopoverContent
           className={cn(
             "w-auto",
-            isSmallScreen ? "max-w-[280px]" : "min-w-[320px]"
+            isSmallScreen ? "max-w-[280px]" : "min-w-[320px]",
           )}
           align="start"
           sideOffset={5}

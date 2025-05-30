@@ -17,7 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Vyse ",
-  description: "Vyse is a sleek, powerful online text editor built for modern creators. With rich formatting, image uploads, smart search, YouTube embeds, and secure sharing it's everything you need to write, edit, and collaborate effortlessly",
+  description:
+    "Vyse is a sleek, powerful online text editor built for modern creators. With rich formatting, image uploads, smart search, YouTube embeds, and secure sharing it's everything you need to write, edit, and collaborate effortlessly",
 };
 
 export default function RootLayout({

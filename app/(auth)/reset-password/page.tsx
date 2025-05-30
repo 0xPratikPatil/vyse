@@ -34,7 +34,7 @@ function ResetPasswordForm() {
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
-    
+
     if (!token) {
       setError("Invalid or missing reset token");
       setIsSubmitting(false);
@@ -58,14 +58,19 @@ function ResetPasswordForm() {
         newPassword: password,
         token: token,
       });
-      
+
       if (res.error) {
-        setError(res.error.message ?? "An unexpected error occurred. Please try again.");
+        setError(
+          res.error.message ??
+            "An unexpected error occurred. Please try again.",
+        );
         setIsSubmitting(false);
         return;
       }
 
-      toast.success("Password reset successfully! Please log in with your new password.");
+      toast.success(
+        "Password reset successfully! Please log in with your new password.",
+      );
       router.push("/login");
     } catch (error) {
       setError("An unexpected error occurred. Please try again.");
@@ -76,9 +81,7 @@ function ResetPasswordForm() {
   return (
     <Card className="rounded-md rounded-t-none max-w-md mx-auto shadow-sm border-t-0">
       <CardHeader className="space-y-1 pb-2">
-        <CardTitle className="text-xl font-semibold">
-          Reset Password
-        </CardTitle>
+        <CardTitle className="text-xl font-semibold">Reset Password</CardTitle>
         <CardDescription className="text-sm text-muted-foreground">
           Enter a new password for your account
         </CardDescription>
@@ -105,10 +108,7 @@ function ResetPasswordForm() {
             </div>
 
             <div className="grid gap-2">
-              <Label
-                htmlFor="confirmPassword"
-                className="text-sm font-medium"
-              >
+              <Label htmlFor="confirmPassword" className="text-sm font-medium">
                 Confirm Password
               </Label>
               <PasswordInput
@@ -173,9 +173,7 @@ function ResetPasswordLoading() {
   return (
     <Card className="rounded-md rounded-t-none max-w-md mx-auto shadow-sm border-t-0">
       <CardHeader className="space-y-1 pb-2">
-        <CardTitle className="text-xl font-semibold">
-          Reset Password
-        </CardTitle>
+        <CardTitle className="text-xl font-semibold">Reset Password</CardTitle>
         <CardDescription className="text-sm text-muted-foreground">
           Loading...
         </CardDescription>

@@ -25,7 +25,7 @@ const YoutubePlaceholderToolbar = React.forwardRef<
           className={cn(
             "h-8 w-8 p-0 sm:h-9 sm:w-9",
             editor?.isActive("youtube-placeholder") && "bg-accent",
-            className
+            className,
           )}
           onClick={(e) => {
             e.preventDefault();
@@ -36,7 +36,7 @@ const YoutubePlaceholderToolbar = React.forwardRef<
               (editor as any).chain().focus().insertYoutubePlaceholder().run();
             } else {
               alert(
-                "YouTube placeholder command not available. Try reloading the page or check extension registration."
+                "YouTube placeholder command not available. Try reloading the page or check extension registration.",
               );
             }
             onClick?.(e);

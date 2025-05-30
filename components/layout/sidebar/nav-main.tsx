@@ -8,7 +8,7 @@ import {
   Pencil,
   Trash2,
   MoreHorizontal,
-  Loader2
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -56,7 +56,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { useDeleteDocument, useUpdateDocument } from "@/features/documents/api/useDocuments";
+import {
+  useDeleteDocument,
+  useUpdateDocument,
+} from "@/features/documents/api/useDocuments";
 
 export function NavMain({
   items,
@@ -95,7 +98,7 @@ export function NavMain({
     // Copy document link to clipboard
     navigator.clipboard
       .writeText(
-        `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/shared/${id}`
+        `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/shared/${id}`,
       )
       .then(() => {
         toast.success("Document link copied to clipboard");
@@ -141,8 +144,8 @@ export function NavMain({
         },
         onError: () => {
           toast.error("Failed to rename document");
-        }
-      }
+        },
+      },
     );
   };
 
@@ -170,8 +173,8 @@ export function NavMain({
           onError: () => {
             toast.error("Failed to delete document");
             setDocumentToDelete(null);
-          }
-        }
+          },
+        },
       );
     }
   };
@@ -262,7 +265,7 @@ export function NavMain({
                                             handleRename(
                                               e,
                                               documentId,
-                                              subItem.title
+                                              subItem.title,
                                             )
                                           }
                                           className="text-sm px-2 py-1.5"
@@ -304,14 +307,18 @@ export function NavMain({
       >
         <AlertDialogContent className="sm:max-w-md max-w-[90vw] w-full mx-auto">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-lg font-semibold">Delete Document</AlertDialogTitle>
+            <AlertDialogTitle className="text-lg font-semibold">
+              Delete Document
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this document? This action cannot be
-              undone.
+              Are you sure you want to delete this document? This action cannot
+              be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex sm:flex-row flex-col gap-2">
-            <AlertDialogCancel className="sm:w-auto w-full order-1 sm:order-none">Cancel</AlertDialogCancel>
+            <AlertDialogCancel className="sm:w-auto w-full order-1 sm:order-none">
+              Cancel
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90 sm:w-auto w-full"
@@ -334,13 +341,17 @@ export function NavMain({
       <Dialog open={isRenameDialogOpen} onOpenChange={setIsRenameDialogOpen}>
         <DialogContent className="sm:max-w-md max-w-[90vw] w-full mx-auto p-5 sm:p-6">
           <DialogHeader className="pb-3">
-            <DialogTitle className="text-lg font-semibold">Rename Document</DialogTitle>
+            <DialogTitle className="text-lg font-semibold">
+              Rename Document
+            </DialogTitle>
             <DialogDescription className="pt-1.5">
               Enter a new name for this document.
             </DialogDescription>
           </DialogHeader>
           <div className="py-3">
-            <Label htmlFor="document-title" className="text-sm font-medium">Document name</Label>
+            <Label htmlFor="document-title" className="text-sm font-medium">
+              Document name
+            </Label>
             <Input
               id="document-title"
               value={newDocumentTitle}
@@ -365,7 +376,9 @@ export function NavMain({
             </Button>
             <Button
               onClick={handleRenameConfirm}
-              disabled={!newDocumentTitle.trim() || updateDocumentMutation.isPending}
+              disabled={
+                !newDocumentTitle.trim() || updateDocumentMutation.isPending
+              }
               className="sm:w-auto w-full"
             >
               {updateDocumentMutation.isPending ? (

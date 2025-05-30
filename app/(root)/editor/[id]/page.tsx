@@ -24,7 +24,7 @@ interface PageProps {
 export default function EditorPage({ params }: PageProps) {
   const resolvedParams = React.use(params);
   const documentId = resolvedParams.id;
-  
+
   const { data: documentResponse, isPending, error } = useDocument(documentId);
   const document = documentResponse?.data as Document;
   const updateDocumentMutation = useUpdateDocument();
@@ -80,7 +80,7 @@ export default function EditorPage({ params }: PageProps) {
       contentLength: contentRef.current.length,
       docContentLength: document.content?.length,
     });
-    
+
     setSaveStatus("saving");
     hasPendingChangesRef.current = false;
 
@@ -91,11 +91,11 @@ export default function EditorPage({ params }: PageProps) {
           content: contentRef.current,
         },
       });
-      
+
       console.log("Auto-save successful");
       setSaveStatus("saved");
       setLastSaved(new Date());
-      
+
       // If changes were made during saving, schedule another save
       if (hasPendingChangesRef.current) {
         if (saveTimeoutRef.current) {
@@ -119,7 +119,7 @@ export default function EditorPage({ params }: PageProps) {
 
     // Mark that we have pending changes
     hasPendingChangesRef.current = true;
-    
+
     // Update content ref
     contentRef.current = newContent;
 
@@ -158,7 +158,7 @@ export default function EditorPage({ params }: PageProps) {
           title,
         },
       });
-      
+
       setSaveStatus("saved");
       setLastSaved(new Date());
     } catch (error) {
@@ -181,10 +181,9 @@ export default function EditorPage({ params }: PageProps) {
           content: contentRef.current,
         },
       });
-      
+
       setSaveStatus("saved");
       setLastSaved(new Date());
-      toast.success("Document saved successfully");
     } catch (error) {
       toast.error("Failed to save document");
       setSaveStatus("error");
@@ -271,7 +270,12 @@ export default function EditorPage({ params }: PageProps) {
           />
         </div>
         <div className="flex items-center gap-2">
-          <div className={cn("flex items-center text-xs font-medium", getStatusColor())}>
+          <div
+            className={cn(
+              "flex items-center text-xs font-medium",
+              getStatusColor(),
+            )}
+          >
             <StatusIcon />
             {saveStatus === "saved" && lastSaved && (
               <span>Saved {getLastSavedText()}</span>

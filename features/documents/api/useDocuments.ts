@@ -71,7 +71,7 @@ export const useCreateDocument = () => {
     },
     onError: (error: Error) => {
       toast.error(
-        error.message || "Something went wrong while creating document"
+        error.message || "Something went wrong while creating document",
       );
     },
   });
@@ -122,7 +122,7 @@ export const useUpdateDocument = () => {
     onError: (error: Error) => {
       console.error("Document update failed:", error);
       toast.error(
-        error.message || "Something went wrong while updating document"
+        error.message || "Something went wrong while updating document",
       );
     },
   });
@@ -154,7 +154,7 @@ export const useDeleteDocument = () => {
     },
     onError: (error: Error) => {
       toast.error(
-        error.message || "Something went wrong while deleting document"
+        error.message || "Something went wrong while deleting document",
       );
     },
   });

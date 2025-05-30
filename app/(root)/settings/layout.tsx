@@ -9,7 +9,7 @@ const sidebarNavItems = [
   {
     title: "Account",
     href: "/settings/account",
-  }
+  },
 ];
 
 interface SettingsLayoutProps {

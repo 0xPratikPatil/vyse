@@ -48,7 +48,7 @@ interface TextNodeWithPosition {
 const getRegex = (
   searchString: string,
   disableRegex: boolean,
-  caseSensitive: boolean
+  caseSensitive: boolean,
 ): RegExp => {
   const escapedString = disableRegex
     ? searchString.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")
@@ -66,7 +66,7 @@ function processSearches(
   searchTerm: RegExp,
   selectedResultIndex: number,
   searchResultClass: string,
-  selectedResultClass: string
+  selectedResultClass: string,
 ): ProcessedSearches {
   const decorations: Decoration[] = [];
   const results: Range[] = [];
@@ -84,7 +84,7 @@ function processSearches(
 
   for (const { text, pos } of textNodesWithPosition) {
     const matches = Array.from(text.matchAll(searchTerm)).filter(
-      ([matchText]) => matchText.trim()
+      ([matchText]) => matchText.trim(),
     );
 
     for (const match of matches) {
@@ -105,7 +105,7 @@ function processSearches(
       Decoration.inline(from, to, {
         class:
           selectedResultIndex === i ? selectedResultClass : searchResultClass,
-      })
+      }),
     );
   }
 
@@ -118,7 +118,7 @@ function processSearches(
 const replace = (
   replaceTerm: string,
   results: Range[],
-  { state, dispatch }: any
+  { state, dispatch }: any,
 ) => {
   const firstResult = results[0];
 
@@ -137,7 +137,7 @@ const rebaseNextResult = (
   replaceTerm: string,
   index: number,
   lastOffset: number,
-  results: Range[]
+  results: Range[],
 ): [number, Range[]] | null => {
   const nextIndex = index + 1;
 
@@ -167,7 +167,7 @@ const rebaseNextResult = (
 const replaceAll = (
   replaceTerm: string,
   results: Range[],
-  { tr, dispatch }: { tr: any; dispatch: any }
+  { tr, dispatch }: { tr: any; dispatch: any },
 ) => {
   if (!results.length) {
     return;
@@ -247,7 +247,7 @@ const selectPrevious = (editor: CoreEditor) => {
 };
 
 export const searchAndReplacePluginKey = new PluginKey(
-  "searchAndReplacePlugin"
+  "searchAndReplacePlugin",
 );
 
 export interface SearchAndReplaceOptions {
@@ -408,7 +408,7 @@ export const SearchAndReplace = Extension.create<
               getRegex(searchTerm, disableRegex, caseSensitive),
               selectedResult,
               searchResultClass,
-              selectedResultClass
+              selectedResultClass,
             );
 
             editor.storage.searchAndReplace.results = results;

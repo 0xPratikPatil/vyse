@@ -80,7 +80,9 @@ export function RegisterCard() {
             <PasswordInput
               id="password"
               value={password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPassword(e.target.value)
+              }
               autoComplete="password"
               placeholder="Password"
             />
@@ -110,7 +112,7 @@ export function RegisterCard() {
                   onSuccess: () => {
                     router.push("/documents");
                   },
-                }
+                },
               );
             }}
           >

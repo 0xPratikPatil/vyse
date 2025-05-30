@@ -6,9 +6,6 @@ import { handle } from "hono/vercel";
 import documentsRoute from "@/features/documents/server/route";
 import settingsRoute from "@/features/settings/server/route";
 
-
-
-
 const app = new Hono<{
   Variables: {
     user: Session["user"] | null;
@@ -16,10 +13,12 @@ const app = new Hono<{
   };
 }>().basePath("/api");
 
-app.use(cors({
-  origin: [process.env.NEXT_PUBLIC_APP_URL!],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [process.env.NEXT_PUBLIC_APP_URL!],
+    credentials: true,
+  }),
+);
 
 app.use("*", async (c, next) => {
   const session = await auth.api.getSession({ headers: c.req.raw.headers });

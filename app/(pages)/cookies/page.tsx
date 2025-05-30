@@ -1,5 +1,5 @@
-import CookiesPage from '@/components/pages/cookies';
+import CookiesPage from "@/components/pages/cookies";
 
 export default function Page() {
   return <CookiesPage />;
-} 
+}

@@ -1,9 +1,16 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {  X, Loader2 } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { Node, NodeViewWrapper, ReactNodeViewRenderer, mergeAttributes, type NodeViewProps, type CommandProps } from "@tiptap/react";
+import {
+  Node,
+  NodeViewWrapper,
+  ReactNodeViewRenderer,
+  mergeAttributes,
+  type NodeViewProps,
+  type CommandProps,
+} from "@tiptap/react";
 import { cn } from "@/lib/utils";
 import { YoutubeIcon } from "./youtube-toolbar";
 
@@ -63,7 +70,8 @@ function YoutubePlaceholderComponent(props: NodeViewProps) {
 
   const getYoutubeVideoId = (url: string): string | null => {
     if (!url) return null;
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
     return match && match[2].length === 11 ? match[2] : null;
   };
@@ -86,7 +94,9 @@ function YoutubePlaceholderComponent(props: NodeViewProps) {
     }
     const pos = props.getPos?.();
     if (typeof pos === "number") {
-      editor.chain().focus()
+      editor
+        .chain()
+        .focus()
         .deleteRange({ from: pos, to: pos + 1 })
         .insertContentAt(pos, {
           type: "youtube",
@@ -94,7 +104,7 @@ function YoutubePlaceholderComponent(props: NodeViewProps) {
             src: formattedUrl,
             width: Math.max(320, width) || 640,
             height: Math.max(180, height) || 480,
-          }
+          },
         })
         .run();
     }
@@ -105,18 +115,29 @@ function YoutubePlaceholderComponent(props: NodeViewProps) {
     // Remove this node
     const pos = props.getPos?.();
     if (typeof pos === "number") {
-      editor.chain().focus().deleteRange({ from: pos, to: pos + 1 }).run();
+      editor
+        .chain()
+        .focus()
+        .deleteRange({ from: pos, to: pos + 1 })
+        .run();
     }
   };
 
   return (
     <NodeViewWrapper className="w-full">
-      <div className={cn(
-        "relative flex flex-col items-center gap-4 rounded-lg border-2 border-dashed p-8 bg-background transition-all",
-        selected && "border-primary bg-primary/5"
-      )}>
+      <div
+        className={cn(
+          "relative flex flex-col items-center gap-4 rounded-lg border-2 border-dashed p-8 bg-background transition-all",
+          selected && "border-primary bg-primary/5",
+        )}
+      >
         <div className="absolute top-2 right-2">
-          <Button size="icon" variant="ghost" onClick={handleCancel} type="button">
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={handleCancel}
+            type="button"
+          >
             <X className="h-4 w-4" />
           </Button>
         </div>
@@ -129,7 +150,7 @@ function YoutubePlaceholderComponent(props: NodeViewProps) {
             type="url"
             placeholder="YouTube URL (e.g. https://www.youtube.com/watch?v=...)"
             value={url}
-            onChange={e => setUrl(e.target.value)}
+            onChange={(e) => setUrl(e.target.value)}
             required
             disabled={loading}
           />
@@ -139,7 +160,7 @@ function YoutubePlaceholderComponent(props: NodeViewProps) {
               min={320}
               max={1024}
               value={width}
-              onChange={e => setWidth(Number(e.target.value) || 640)}
+              onChange={(e) => setWidth(Number(e.target.value) || 640)}
               placeholder="Width"
               className="w-1/2"
               disabled={loading}
@@ -149,7 +170,7 @@ function YoutubePlaceholderComponent(props: NodeViewProps) {
               min={180}
               max={720}
               value={height}
-              onChange={e => setHeight(Number(e.target.value) || 480)}
+              onChange={(e) => setHeight(Number(e.target.value) || 480)}
               placeholder="Height"
               className="w-1/2"
               disabled={loading}
@@ -164,4 +185,4 @@ function YoutubePlaceholderComponent(props: NodeViewProps) {
       </div>
     </NodeViewWrapper>
   );
-} 
+}
