@@ -56,7 +56,7 @@ const SettingsProfilePage = ({ session }: { session: Session }) => {
     defaultValues: {
       name: session.user.name,
       pronouns: session.user.pronouns,
-      bio: session.user.bio,
+      bio: session.user.bio ?? "",
       urls: session.user.urls?.map((url) => ({ value: url })) as {
         value: string;
       }[],
@@ -159,6 +159,7 @@ const SettingsProfilePage = ({ session }: { session: Session }) => {
                       placeholder="Provide a brief professional summary."
                       className="resize-none"
                       {...field}
+                      value={field.value ?? ""}
                     />
                   </FormControl>
                   <FormDescription>
@@ -242,10 +243,10 @@ const EditAvatar = () => {
       <DialogTrigger asChild>
         <Button size="sm" className="gap-2" variant="secondary">
           <Edit size={13} />
-          Edit Avatar
+          <span className="hidden sm:inline">Edit Avatar</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] w-11/12">
+      <DialogContent className="sm:max-w-[425px] w-full max-w-xs sm:w-11/12 p-4 sm:p-6">
         <DialogHeader>
           <DialogTitle>Edit Avatar</DialogTitle>
           <DialogDescription>Edit profile image</DialogDescription>
@@ -253,14 +254,14 @@ const EditAvatar = () => {
         <div className="grid gap-2">
           <div className="grid gap-2">
             <Label htmlFor="image">Profile Image</Label>
-            <div className="flex items-end gap-4">
+            <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4 w-full">
               {imagePreview && (
-                <div className="relative w-16 h-16 rounded-sm overflow-hidden">
+                <div className="relative w-20 h-20 rounded-sm overflow-hidden mb-2 sm:mb-0">
                   <Image
                     src={imagePreview}
                     alt="Profile preview"
-                    layout="fill"
-                    objectFit="cover"
+                    fill
+                    style={{ objectFit: 'cover' }}
                   />
                 </div>
               )}
@@ -285,8 +286,9 @@ const EditAvatar = () => {
             </div>
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-4">
           <Button
+            className="w-full sm:w-auto"
             disabled={isLoading}
             onClick={async () => {
               setIsLoading(true);
@@ -315,6 +317,7 @@ const EditAvatar = () => {
             )}
           </Button>
           <Button
+            className="w-full sm:w-auto"
             variant="destructive"
             onClick={async () => {
               setIsLoading(true);

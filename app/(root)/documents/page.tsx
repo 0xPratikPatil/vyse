@@ -327,24 +327,15 @@ export default function DocumentsPage() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          onClick={() =>
-                            handleShare(document.id, document.title)
-                          }
-                        >
+                        <DropdownMenuItem onClick={() => handleShare(document.id, document.title)}>
                           <Share2 className="h-4 w-4 mr-2" />
                           Share
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => handleRenameClick(document)}
-                        >
+                        <DropdownMenuItem onClick={() => handleRenameClick(document)}>
                           <Pencil className="h-4 w-4 mr-2" />
                           Rename
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={(e) => handleDeleteClick(e, document)}
-                          className="text-destructive focus:text-destructive"
-                        >
+                        <DropdownMenuItem onClick={(e) => handleDeleteClick(e, document)} className="text-destructive focus:text-destructive">
                           <Trash2 className="h-4 w-4 mr-2" />
                           Delete
                         </DropdownMenuItem>
