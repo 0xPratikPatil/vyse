@@ -3,6 +3,7 @@ import "./tiptap.css"
 import { cn } from "@/lib/utils"
 import { ImageExtension } from "@/components/tiptap/extensions/image"
 import { ImagePlaceholder } from "@/components/tiptap/extensions/image-placeholder"
+import { YoutubePlaceholder } from "@/components/tiptap/extensions/youtube-placeholder"
 import SearchAndReplace from "@/components/tiptap/extensions/search-and-replace"
 import { Color } from "@tiptap/extension-color"
 import Highlight from "@tiptap/extension-highlight"
@@ -78,6 +79,7 @@ const extensions = [
     allowBase64: true,
   }),
   ImagePlaceholder,
+  YoutubePlaceholder,
   SearchAndReplace,
   Typography,
   // Add table extensions

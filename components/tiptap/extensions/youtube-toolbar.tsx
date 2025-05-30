@@ -20,14 +20,16 @@ import { useMediaQuery } from "@/hooks/use-media-querry";
 import { MobileToolbarGroup } from "../toolbars/mobile-toolbar-group";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { MobileToolbarItem } from "../toolbars/mobile-toolbar-group";
 
-export const YoutubeIcon = () => {
+export const YoutubeIcon = ({ className = "" }: { className?: string }) => {
   return (
     <svg
       viewBox="0 -7 48 48"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       fill="#ffffff"
+      className={className}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g
@@ -85,7 +87,8 @@ const formatYoutubeUrl = (url: string): string | null => {
   return `https://www.youtube.com/embed/${videoId}`;
 };
 
-export const YoutubeToolbar = () => {
+export const YoutubeToolbar = (props: { closeDrawer?: () => void } = {}) => {
+  const { closeDrawer } = props;
   const { editor } = useToolbar();
   const isMobile = useMediaQuery("(max-width: 640px)");
   const isSmallScreen = useMediaQuery("(max-width: 480px)");
@@ -119,6 +122,7 @@ export const YoutubeToolbar = () => {
 
     setUrl("");
     setIsOpen(false);
+    closeDrawer?.();
   };
 
   if (isMobile) {
@@ -167,13 +171,14 @@ export const YoutubeToolbar = () => {
               />
             </div>
           </div>
-          <Button
+          <MobileToolbarItem
             onClick={handleInsertVideo}
-            className="w-full"
+            active={false}
+            closeDrawer={closeDrawer}
             disabled={!url}
           >
             Insert YouTube Video
-          </Button>
+          </MobileToolbarItem>
         </div>
       </MobileToolbarGroup>
     );
@@ -188,16 +193,19 @@ export const YoutubeToolbar = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                className={cn("h-8 w-max gap-1 px-3 font-normal")}
+                className={cn("h-8 w-max gap-1 px-3 font-normal flex items-center justify-center")}
                 disabled={isDisabled}
+                onClick={() => setIsOpen((v) => !v)}
+                tabIndex={0}
+                type="button"
               >
-                <span className="hidden sm:inline">YouTube</span>
+                <YoutubeIcon />
+                <span className="hidden sm:inline ml-1">YouTube</span>
               </Button>
             </PopoverTrigger>
           </TooltipTrigger>
           <TooltipContent>YouTube Video</TooltipContent>
         </Tooltip>
-
         <PopoverContent
           className={cn(
             "w-auto",
@@ -214,11 +222,11 @@ export const YoutubeToolbar = () => {
                 size="icon"
                 className="h-6 w-6"
                 onClick={() => setIsOpen(false)}
+                type="button"
               >
                 <X className="h-4 w-4" />
               </Button>
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="youtube-url">YouTube URL</Label>
               <Input
@@ -233,7 +241,6 @@ export const YoutubeToolbar = () => {
               />
               {error && <p className="text-xs text-red-500">{error}</p>}
             </div>
-
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="video-width">Width</Label>
@@ -262,11 +269,11 @@ export const YoutubeToolbar = () => {
                 />
               </div>
             </div>
-
             <Button
               onClick={handleInsertVideo}
               className="w-full"
               disabled={!url}
+              type="button"
             >
               Insert YouTube Video
             </Button>

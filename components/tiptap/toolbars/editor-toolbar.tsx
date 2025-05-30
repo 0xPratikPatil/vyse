@@ -23,7 +23,7 @@ import { SearchAndReplaceToolbar } from "./search-and-replace-toolbar";
 import { CodeBlockToolbar } from "./code-block";
 import { TableToolbar } from "../extensions/table-toolbar";
 import { TaskListToolbar } from "./task-list";
-import { YoutubeToolbar } from "../extensions/youtube-toolbar";
+import { YoutubePlaceholderToolbar } from "./youtube-placeholder-toolbar";
 import { useMediaQuery } from "@/hooks/use-media-querry";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp, Menu, X } from "lucide-react";
@@ -63,10 +63,12 @@ export const EditorToolbar = ({
               <ChevronDown className="h-4 w-4" />
             )}
           </Button>
-          <div className="flex items-center gap-1">
-            <UndoToolbar />
-            <RedoToolbar />
-          </div>
+          <ToolbarProvider editor={editor}>
+            <div className="flex items-center gap-1">
+              <UndoToolbar />
+              <RedoToolbar />
+            </div>
+          </ToolbarProvider>
         </div>
 
         {mobileMenuOpen && (
@@ -99,7 +101,7 @@ export const EditorToolbar = ({
                   {/* Media & Styling Group */}
                   <ImagePlaceholderToolbar />
                   <TableToolbar />
-                  <YoutubeToolbar />
+                  <YoutubePlaceholderToolbar />
                   <ColorHighlightToolbar />
 
                   {/* Utility Group */}
@@ -155,7 +157,7 @@ export const EditorToolbar = ({
                 {/* Media & Styling Group */}
                 <ImagePlaceholderToolbar />
                 <TableToolbar />
-                <YoutubeToolbar />
+                <YoutubePlaceholderToolbar />
                 <ColorHighlightToolbar />
                 <Separator orientation="vertical" className="mx-1 h-7" />
 
