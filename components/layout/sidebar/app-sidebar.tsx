@@ -68,7 +68,7 @@ export function AppSidebar({
     return [...documents]
       .sort(
         (a, b) =>
-          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
       )
       .slice(0, 5)
       .map((doc) => ({
@@ -103,7 +103,7 @@ export function AppSidebar({
         onError: () => {
           toast.error("Failed to create document");
         },
-      }
+      },
     );
   };
 
@@ -159,7 +159,7 @@ export function AppSidebar({
                 onClick={() => setIsCreateDialogOpen(true)}
                 className={cn(
                   "flex items-center gap-2 bg-primary/10 hover:bg-primary/20",
-                  "px-4 py-2 rounded-md transition-colors text-primary font-medium"
+                  "px-4 py-2 rounded-md transition-colors text-primary font-medium",
                 )}
               >
                 <PlusCircle className="h-4 w-4" />

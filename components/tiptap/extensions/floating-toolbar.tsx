@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import { StrikeThroughToolbar } from "../toolbars/strikethrough";
 import { TableToolbar } from "./table-toolbar";
 import { YoutubeToolbar } from "./youtube-toolbar";
+import { FontFamilyToolbar } from "../toolbars/font-family";
 
 export function FloatingToolbar({ editor }: { editor: Editor | null }) {
   const isMobile = useMediaQuery("(max-width: 640px)");
@@ -99,6 +100,7 @@ export function FloatingToolbar({ editor }: { editor: Editor | null }) {
                 <ItalicToolbar />
                 <UnderlineToolbar />
                 <StrikeThroughToolbar />
+                <FontFamilyToolbar />
                 <Separator orientation="vertical" className="h-6 mx-1" />
 
                 {/* Structure controls */}

@@ -35,8 +35,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useDebounce } from "@/hooks/use-debounce";
 import { YoutubeIcon } from "./youtube-toolbar";
 import { ToolbarProvider } from "../toolbars/toolbar-provider";
-import { HeadingsToolbar } from "../toolbars/headings";
-import { AlignmentTooolbar } from "../toolbars/alignment";
 
 export type CommandItemType = {
   title: string;
@@ -51,6 +49,16 @@ export type CommandGroupType = {
   group: string;
   items: Omit<CommandItemType, "group">[];
 };
+
+const FONT_FAMILIES = [
+  { name: "Inter", family: "Inter, sans-serif" },
+  { name: "Comic Sans", family: '"Comic Sans MS", "Comic Sans", cursive' },
+  { name: "Serif", family: "serif" },
+  { name: "Monospace", family: "monospace" },
+  { name: "Cursive", family: "cursive" },
+  { name: "Exo 2", family: '"Exo 2", sans-serif' },
+  { name: "CSS Variable", family: "var(--title-font-family)" },
+];
 
 // Add table to the command groups
 const groups: CommandGroupType[] = [
@@ -204,6 +212,27 @@ const groups: CommandGroupType[] = [
         icon: AlignRight,
         keywords: "align right",
         command: (editor) => editor.chain().focus().setTextAlign("right").run(),
+      },
+    ],
+  },
+  {
+    group: "Font",
+    items: [
+      ...FONT_FAMILIES.map(({ name, family }) => ({
+        title: name,
+        description: `Set font family to ${name}`,
+        icon: TextQuote,
+        keywords: `font family ${name}`,
+        command: (editor: Editor) =>
+          editor.chain().focus().setFontFamily(family).run(),
+      })),
+      {
+        title: "Unset Font Family",
+        description: "Remove font family styling",
+        icon: TextQuote,
+        keywords: "font family unset remove",
+        command: (editor: Editor) =>
+          editor.chain().focus().unsetFontFamily().run(),
       },
     ],
   },

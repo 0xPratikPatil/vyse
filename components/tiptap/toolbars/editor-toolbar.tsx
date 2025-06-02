@@ -25,6 +25,7 @@ import { TableToolbar } from "../extensions/table-toolbar";
 import { TaskListToolbar } from "./task-list";
 import { YoutubePlaceholderToolbar } from "./youtube-placeholder-toolbar";
 import { useMediaQuery } from "@/hooks/use-media-querry";
+import { FontFamilyToolbar } from "./font-family";
 
 interface EditorToolbarProps {
   editor: Editor;
@@ -58,6 +59,7 @@ export const EditorToolbar = ({ editor }: EditorToolbarProps) => {
                   <ItalicToolbar />
                   <UnderlineToolbar />
                   <StrikeThroughToolbar />
+                  <FontFamilyToolbar />
                   <LinkToolbar />
                   <Separator orientation="vertical" className="mx-1 h-7" />
 
@@ -117,6 +119,7 @@ export const EditorToolbar = ({ editor }: EditorToolbarProps) => {
                 <ItalicToolbar />
                 <UnderlineToolbar />
                 <StrikeThroughToolbar />
+                <FontFamilyToolbar />
                 <LinkToolbar />
                 <Separator orientation="vertical" className="mx-1 h-7" />
 

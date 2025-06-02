@@ -98,7 +98,7 @@ export function NavMain({
     // Copy document link to clipboard
     navigator.clipboard
       .writeText(
-        `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/shared/${id}`
+        `${process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/shared/${id}`,
       )
       .then(() => {
         toast.success("Document link copied to clipboard");
@@ -145,7 +145,7 @@ export function NavMain({
         onError: () => {
           toast.error("Failed to rename document");
         },
-      }
+      },
     );
   };
 
@@ -170,7 +170,7 @@ export function NavMain({
             setDocumentToDelete(null);
             router.push("/documents");
           },
-        }
+        },
       );
     }
   };
@@ -261,7 +261,7 @@ export function NavMain({
                                             handleRename(
                                               e,
                                               documentId,
-                                              subItem.title
+                                              subItem.title,
                                             )
                                           }
                                           className="text-sm px-2 py-1.5"

@@ -70,11 +70,11 @@ export default function DocumentsPage() {
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [documentToDelete, setDocumentToDelete] = useState<Document | null>(
-    null
+    null,
   );
   const [isRenameDialogOpen, setIsRenameDialogOpen] = useState(false);
   const [documentToRename, setDocumentToRename] = useState<Document | null>(
-    null
+    null,
   );
   const [newDocumentTitle, setNewDocumentTitle] = useState<string>("");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -111,7 +111,7 @@ export default function DocumentsPage() {
             toast.error("Error accessing the new document");
           }
         },
-      }
+      },
     );
   };
 
@@ -139,7 +139,7 @@ export default function DocumentsPage() {
               toast.error("Failed to copy link to clipboard");
             });
         },
-      }
+      },
     );
   };
 
@@ -172,7 +172,7 @@ export default function DocumentsPage() {
           setIsRenameDialogOpen(false);
           setDocumentToRename(null);
         },
-      }
+      },
     );
   };
 
@@ -202,7 +202,7 @@ export default function DocumentsPage() {
           setDocumentToDelete(null);
           setIsDeleteDialogOpen(false);
         },
-      }
+      },
     );
   };
 

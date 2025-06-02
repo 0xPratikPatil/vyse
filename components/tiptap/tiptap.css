@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&family=Inter:wght@400;700&display=swap");
+
 :root {
   /* Color System */
   --editor-text-default: hsl(240 10% 3.9%);
@@ -537,4 +539,32 @@
 
 .ProseMirror div[data-youtube-video]:hover iframe {
   border-color: var(--editor-border-strong);
+}
+
+/* Font family support for Tiptap FontFamily extension */
+.ProseMirror span[style*="font-family"] {
+  font-family: inherit !important;
+}
+
+/* Specific font rules for known families */
+.ProseMirror span[style*="font-family: Inter"] {
+  font-family: "Inter", sans-serif !important;
+}
+.ProseMirror span[style*="font-family: Exo 2"] {
+  font-family: "Exo 2", sans-serif !important;
+}
+.ProseMirror span[style*="font-family: Comic Sans MS"] {
+  font-family: "Comic Sans MS", "Comic Sans", cursive !important;
+}
+.ProseMirror span[style*="font-family: serif"] {
+  font-family: serif !important;
+}
+.ProseMirror span[style*="font-family: monospace"] {
+  font-family: monospace !important;
+}
+.ProseMirror span[style*="font-family: cursive"] {
+  font-family: cursive !important;
+}
+.ProseMirror span[style*="font-family: var(--title-font-family)"] {
+  font-family: var(--title-font-family) !important;
 }

@@ -29,6 +29,7 @@ import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import Youtube from "@tiptap/extension-youtube";
 import CharacterCount from "@tiptap/extension-character-count";
+import FontFamily from "@tiptap/extension-font-family";
 import { useRef, useEffect } from "react";
 
 const extensions = [
@@ -68,6 +69,9 @@ const extensions = [
     types: ["heading", "paragraph"],
   }),
   TextStyle,
+  FontFamily.configure({
+    types: ["textStyle"],
+  }),
   Subscript,
   Superscript,
   Underline,
@@ -204,7 +208,7 @@ export function RichTextEditor({
     <div
       className={cn(
         "relative flex flex-col w-full h-full min-h-[calc(100dvh-3rem)] overflow-hidden",
-        className
+        className,
       )}
     >
       <EditorToolbar editor={editor} />
