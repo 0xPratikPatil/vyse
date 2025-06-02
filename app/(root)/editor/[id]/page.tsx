@@ -301,7 +301,6 @@ export default function EditorPage({ params }: PageProps) {
         className="flex-1"
         initialContent={content}
         onUpdate={handleEditorUpdate}
-        documentTitle={title}
       />
     </div>
   );
