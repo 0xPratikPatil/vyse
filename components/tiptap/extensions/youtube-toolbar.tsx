@@ -68,23 +68,24 @@ export const YoutubeIcon = ({ className = "" }: { className?: string }) => {
   );
 };
 
-// Utility function to extract YouTube video ID from various URL formats
 const getYoutubeVideoId = (url: string): string | null => {
   if (!url) return null;
-
-  // Match patterns like youtube.com/watch?v=VIDEO_ID or youtu.be/VIDEO_ID
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const shortsMatch = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/);
+  if (shortsMatch) return shortsMatch[1];
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]{11}).*/;
   const match = url.match(regExp);
-
   return match && match[2].length === 11 ? match[2] : null;
 };
 
 // Format YouTube URL properly for embedding
-const formatYoutubeUrl = (url: string): string | null => {
+const formatYoutubeUrl = (url: string): { embed: string | null, isShorts: boolean } => {
+  const shortsMatch = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/);
   const videoId = getYoutubeVideoId(url);
-  if (!videoId) return null;
-
-  return `https://www.youtube.com/embed/${videoId}`;
+  if (!videoId) return { embed: null, isShorts: false };
+  return {
+    embed: `https://www.youtube.com/embed/${videoId}`,
+    isShorts: !!shortsMatch,
+  };
 };
 
 export const YoutubeToolbar = (props: { closeDrawer?: () => void } = {}) => {
@@ -107,17 +108,17 @@ export const YoutubeToolbar = (props: { closeDrawer?: () => void } = {}) => {
 
   const handleInsertVideo = () => {
     setError(null);
-    const formattedUrl = formatYoutubeUrl(url);
+    const { embed: formattedUrl, isShorts } = formatYoutubeUrl(url);
 
     if (!formattedUrl) {
-      setError("Invalid YouTube URL. Please enter a valid YouTube URL.");
+      setError("Invalid YouTube URL. Please enter a valid YouTube or Shorts URL.");
       return;
     }
 
     editor?.commands.setYoutubeVideo({
       src: formattedUrl,
-      width: Math.max(320, width) || 640,
-      height: Math.max(180, height) || 480,
+      width: isShorts ? 315 : Math.max(320, width) || 640,
+      height: isShorts ? 560 : Math.max(180, height) || 480,
     });
 
     setUrl("");
@@ -134,7 +135,7 @@ export const YoutubeToolbar = (props: { closeDrawer?: () => void } = {}) => {
             <Input
               id="youtube-url"
               type="url"
-              placeholder="https://www.youtube.com/watch?v=..."
+              placeholder="https://www.youtube.com/watch?v=... or /shorts/..."
               value={url}
               onChange={(e) => {
                 setUrl(e.target.value);
@@ -234,7 +235,7 @@ export const YoutubeToolbar = (props: { closeDrawer?: () => void } = {}) => {
               <Input
                 id="youtube-url"
                 type="url"
-                placeholder="https://www.youtube.com/watch?v=..."
+                placeholder="https://www.youtube.com/watch?v=... or /shorts/..."
                 value={url}
                 onChange={(e) => {
                   setUrl(e.target.value);

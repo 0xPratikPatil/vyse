@@ -70,25 +70,31 @@ function YoutubePlaceholderComponent(props: NodeViewProps) {
 
   const getYoutubeVideoId = (url: string): string | null => {
     if (!url) return null;
+    const shortsMatch = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/);
+    if (shortsMatch) return shortsMatch[1];
     const regExp =
-      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]{11}).*/;
     const match = url.match(regExp);
     return match && match[2].length === 11 ? match[2] : null;
   };
 
-  const formatYoutubeUrl = (url: string): string | null => {
+  const formatYoutubeUrl = (url: string): { embed: string | null, isShorts: boolean } => {
+    const shortsMatch = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/);
     const videoId = getYoutubeVideoId(url);
-    if (!videoId) return null;
-    return `https://www.youtube.com/embed/${videoId}`;
+    if (!videoId) return { embed: null, isShorts: false };
+    return {
+      embed: `https://www.youtube.com/embed/${videoId}`,
+      isShorts: !!shortsMatch,
+    };
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    const formattedUrl = formatYoutubeUrl(url);
+    const { embed: formattedUrl, isShorts } = formatYoutubeUrl(url);
     if (!formattedUrl) {
-      setError("Invalid YouTube URL. Please enter a valid YouTube URL.");
+      setError("Invalid YouTube URL. Please enter a valid YouTube or Shorts URL.");
       setLoading(false);
       return;
     }
@@ -102,8 +108,8 @@ function YoutubePlaceholderComponent(props: NodeViewProps) {
           type: "youtube",
           attrs: {
             src: formattedUrl,
-            width: Math.max(320, width) || 640,
-            height: Math.max(180, height) || 480,
+            width: isShorts ? 315 : Math.max(320, width) || 640,
+            height: isShorts ? 560 : Math.max(180, height) || 480,
           },
         })
         .run();
@@ -148,7 +154,7 @@ function YoutubePlaceholderComponent(props: NodeViewProps) {
         <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
           <Input
             type="url"
-            placeholder="YouTube URL (e.g. https://www.youtube.com/watch?v=...)"
+            placeholder="YouTube or Shorts URL (e.g. https://www.youtube.com/watch?v=... or /shorts/...)"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             required

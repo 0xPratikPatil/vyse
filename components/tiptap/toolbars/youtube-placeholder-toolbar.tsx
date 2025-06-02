@@ -36,7 +36,7 @@ const YoutubePlaceholderToolbar = React.forwardRef<
               (editor as any).chain().focus().insertYoutubePlaceholder().run();
             } else {
               alert(
-                "YouTube placeholder command not available. Try reloading the page or check extension registration.",
+                "YouTube/Shorts placeholder command not available. Try reloading the page or check extension registration.",
               );
             }
             onClick?.(e);
@@ -48,7 +48,7 @@ const YoutubePlaceholderToolbar = React.forwardRef<
         </Button>
       </TooltipTrigger>
       <TooltipContent>
-        <span>YouTube</span>
+        <span>YouTube / Shorts</span>
       </TooltipContent>
     </Tooltip>
   );

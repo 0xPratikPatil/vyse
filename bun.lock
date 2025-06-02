@@ -57,7 +57,7 @@
         "@tiptap/extension-text-style": "^2.12.0",
         "@tiptap/extension-typography": "latest",
         "@tiptap/extension-underline": "latest",
-        "@tiptap/extension-youtube": "latest",
+        "@tiptap/extension-youtube": "^2.12.0",
         "@tiptap/pm": "latest",
         "@tiptap/react": "latest",
         "@tiptap/starter-kit": "latest",
