@@ -28,6 +28,7 @@ import TableCell from "@tiptap/extension-table-cell";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import Youtube from "@tiptap/extension-youtube";
+import CharacterCount from "@tiptap/extension-character-count";
 import { useRef, useEffect } from "react";
 
 const extensions = [
@@ -82,7 +83,6 @@ const extensions = [
   YoutubePlaceholder,
   SearchAndReplace,
   Typography,
-  // Add table extensions
   Table.configure({
     resizable: true,
     HTMLAttributes: {
@@ -100,20 +100,19 @@ const extensions = [
     controls: false,
     nocookie: true,
   }),
+  CharacterCount.configure(),
 ];
 
 interface RichTextEditorProps {
   className?: string;
   initialContent?: string;
   onUpdate?: (content: string) => void;
-  documentTitle?: string;
 }
 
 export function RichTextEditor({
   className,
   initialContent,
   onUpdate,
-  documentTitle,
 }: RichTextEditorProps) {
   const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastContentRef = useRef<string>(initialContent || defaultContent);
@@ -205,17 +204,23 @@ export function RichTextEditor({
     <div
       className={cn(
         "relative flex flex-col w-full h-full min-h-[calc(100dvh-3rem)] overflow-hidden",
-        className,
+        className
       )}
     >
-      <EditorToolbar editor={editor} documentTitle={documentTitle} />
-      <div className="flex-1 overflow-y-auto overflow-x-hidden">
+      <EditorToolbar editor={editor} />
+      <div className="flex-1 overflow-y-auto overflow-x-hidden pb-10 sm:pb-0">
         <FloatingToolbar editor={editor} />
         <TipTapFloatingMenu editor={editor} />
         <EditorContent
           editor={editor}
-          className="h-full w-full px-4 py-6 sm:px-6 lg:px-8 max-w-full"
+          className="h-full w-full px-4 sm:px-6 lg:px-8 max-w-full"
         />
+      </div>
+      <div className="fixed bottom-0 left-0 w-full flex justify-center sm:static sm:justify-end z-50 pointer-events-none">
+        <div className="m-2 text-xs text-gray-400 bg-background/90 px-2 py-1 rounded shadow pointer-events-auto">
+          {editor.storage.characterCount.characters()} characters |{" "}
+          {editor.storage.characterCount.words()} words
+        </div>
       </div>
     </div>
   );

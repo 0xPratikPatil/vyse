@@ -25,19 +25,12 @@ import { TableToolbar } from "../extensions/table-toolbar";
 import { TaskListToolbar } from "./task-list";
 import { YoutubePlaceholderToolbar } from "./youtube-placeholder-toolbar";
 import { useMediaQuery } from "@/hooks/use-media-querry";
-import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, Menu, X } from "lucide-react";
-import { useState } from "react";
 
 interface EditorToolbarProps {
   editor: Editor;
-  documentTitle?: string;
 }
 
-export const EditorToolbar = ({
-  editor,
-  documentTitle,
-}: EditorToolbarProps) => {
+export const EditorToolbar = ({ editor }: EditorToolbarProps) => {
   const isMobile = useMediaQuery("(max-width: 640px)");
 
   if (isMobile) {

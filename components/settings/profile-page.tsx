@@ -261,7 +261,7 @@ const EditAvatar = () => {
                     src={imagePreview}
                     alt="Profile preview"
                     fill
-                    style={{ objectFit: 'cover' }}
+                    style={{ objectFit: "cover" }}
                   />
                 </div>
               )}

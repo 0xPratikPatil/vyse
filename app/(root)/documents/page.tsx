@@ -53,9 +53,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
-// Initial content for new documents
-const defaultContent = `<h1>Welcome to your new document</h1><p>Start writing here...</p>`;
+import { content } from "@/lib/content";
 
 export default function DocumentsPage() {
   const router = useRouter();
@@ -72,11 +70,11 @@ export default function DocumentsPage() {
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [documentToDelete, setDocumentToDelete] = useState<Document | null>(
-    null,
+    null
   );
   const [isRenameDialogOpen, setIsRenameDialogOpen] = useState(false);
   const [documentToRename, setDocumentToRename] = useState<Document | null>(
-    null,
+    null
   );
   const [newDocumentTitle, setNewDocumentTitle] = useState<string>("");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -94,7 +92,7 @@ export default function DocumentsPage() {
 
     const documentData = {
       title: newDocumentName.trim(),
-      content: defaultContent,
+      content: content,
       tags: [],
       description: "",
     };
@@ -113,7 +111,7 @@ export default function DocumentsPage() {
             toast.error("Error accessing the new document");
           }
         },
-      },
+      }
     );
   };
 
@@ -141,7 +139,7 @@ export default function DocumentsPage() {
               toast.error("Failed to copy link to clipboard");
             });
         },
-      },
+      }
     );
   };
 
@@ -174,7 +172,7 @@ export default function DocumentsPage() {
           setIsRenameDialogOpen(false);
           setDocumentToRename(null);
         },
-      },
+      }
     );
   };
 
@@ -204,7 +202,7 @@ export default function DocumentsPage() {
           setDocumentToDelete(null);
           setIsDeleteDialogOpen(false);
         },
-      },
+      }
     );
   };
 
@@ -327,15 +325,24 @@ export default function DocumentsPage() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => handleShare(document.id, document.title)}>
+                        <DropdownMenuItem
+                          onClick={() =>
+                            handleShare(document.id, document.title)
+                          }
+                        >
                           <Share2 className="h-4 w-4 mr-2" />
                           Share
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleRenameClick(document)}>
+                        <DropdownMenuItem
+                          onClick={() => handleRenameClick(document)}
+                        >
                           <Pencil className="h-4 w-4 mr-2" />
                           Rename
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={(e) => handleDeleteClick(e, document)} className="text-destructive focus:text-destructive">
+                        <DropdownMenuItem
+                          onClick={(e) => handleDeleteClick(e, document)}
+                          className="text-destructive focus:text-destructive"
+                        >
                           <Trash2 className="h-4 w-4 mr-2" />
                           Delete
                         </DropdownMenuItem>
